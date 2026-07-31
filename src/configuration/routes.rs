@@ -1,4 +1,5 @@
 use actix_web::web;
+use crate::core::materials::handlers::get_all_materials;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
     log::info!("Configuring routes...");
@@ -7,7 +8,7 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
         web::scope("/api/v1")
             .service(
                 web::scope("/topics")
-                    .service()
+                    .service(get_all_materials)
             )
             .service(web::scope("/materials"))
             .service(web::scope("/auth")),
