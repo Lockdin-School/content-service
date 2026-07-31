@@ -1,8 +1,8 @@
 use crate::configuration::state::AppState;
+use crate::core::materials::dto::MaterialResponseDTO::MaterialResponseDTO;
 use actix_web::web::Data;
 use actix_web::{HttpResponse, get};
 use uuid::Uuid;
-use crate::core::materials::dto::MaterialResponseDTO::MaterialResponseDTO;
 
 #[get("/{topic_id}/materials")]
 pub async fn get_all_materials(
@@ -24,12 +24,13 @@ pub async fn get_all_materials(
                     log::info!(
                         "materials.get.request.success | handler | get_materials_by_topic | success | \"Request to get materials processed successfully\" |"
                     );
-                    let materials: Vec<MaterialResponseDTO> = materials.into_iter().map(MaterialResponseDTO::from).collect();
+                    let materials: Vec<MaterialResponseDTO> = materials
+                        .into_iter()
+                        .map(MaterialResponseDTO::from)
+                        .collect();
                     Ok(HttpResponse::Ok().json(materials))
                 }
-                Err(error) => {
-                    Ok(HttpResponse::from_error(error))
-                }
+                Err(error) => Ok(HttpResponse::from_error(error)),
             }
         }
         Err(e) => {

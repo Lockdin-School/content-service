@@ -1,9 +1,9 @@
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
-use uuid::Uuid;
 use crate::core::materials::models::Material::Material;
 use crate::core::materials::models::MaterialStatus::MaterialStatus;
 use crate::core::materials::models::MaterialType::MaterialType;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MaterialResponseDTO {
@@ -64,4 +64,3 @@ impl From<Material> for MaterialResponseDTO {
         }
     }
 }
-

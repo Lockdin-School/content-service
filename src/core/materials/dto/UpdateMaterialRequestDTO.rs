@@ -1,6 +1,6 @@
-use serde::{Deserialize, Serialize};
 use crate::core::materials::models::MaterialStatus::MaterialStatus;
 use crate::core::materials::models::MaterialType::MaterialType;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct UpdateMaterialRequest {

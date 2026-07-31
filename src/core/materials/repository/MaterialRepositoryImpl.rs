@@ -1,10 +1,10 @@
-use sqlx::Error;
-use uuid::Uuid;
 use crate::core::materials::models::Material::Material;
 use crate::core::materials::repository::MaterialRepository::MaterialRepository;
+use sqlx::Error;
+use uuid::Uuid;
 
 pub struct PostgresMaterialRepository {
-    pool: sqlx::PgPool
+    pool: sqlx::PgPool,
 }
 
 impl PostgresMaterialRepository {
@@ -15,7 +15,10 @@ impl PostgresMaterialRepository {
 
 #[async_trait::async_trait]
 impl MaterialRepository for PostgresMaterialRepository {
-    async fn get_materials_by_topic_id(&self, topic_id: &Uuid) -> sqlx::Result<Vec<Material>, Error> {
+    async fn get_materials_by_topic_id(
+        &self,
+        topic_id: &Uuid,
+    ) -> sqlx::Result<Vec<Material>, Error> {
         sqlx::query_as("SELECT * FROM materials WHERE topic_id = $1")
             .bind(topic_id)
             .fetch_all(&self.pool)

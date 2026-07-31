@@ -1,7 +1,7 @@
-use sqlx::FromRow;
-use uuid::Uuid;
 use crate::core::materials::models::MaterialStatus::MaterialStatus;
 use crate::core::materials::models::MaterialType::MaterialType;
+use sqlx::FromRow;
+use uuid::Uuid;
 
 #[derive(Debug, Clone, FromRow)]
 pub struct Material {

@@ -1,12 +1,11 @@
+use crate::core::materials::models::Material::Material;
+use crate::core::materials::repository::MaterialRepository::MaterialRepository;
 use std::io::Error;
 use std::sync::Arc;
 use uuid::Uuid;
-use crate::core::materials::models::Material::Material;
-use crate::core::materials::repository::MaterialRepository::MaterialRepository;
-
 
 pub struct MaterialService {
-    repo: Arc<dyn MaterialRepository + Send + Sync>
+    repo: Arc<dyn MaterialRepository + Send + Sync>,
 }
 
 impl MaterialService {
@@ -29,7 +28,7 @@ impl MaterialService {
             Err(error) => {
                 log::error!(
                     "materials.get.failed | service | get_materials_by_topic | failed | \"Failed to get materials\" | error=\"{}\"",
-                    error.to_string()
+                    error
                 );
                 Err(Error::other(error.to_string()))
             }

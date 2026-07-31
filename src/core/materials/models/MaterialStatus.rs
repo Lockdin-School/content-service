@@ -6,5 +6,5 @@ use sqlx::Type;
 pub enum MaterialStatus {
     Draft,
     Published,
-    Archived
+    Archived,
 }
