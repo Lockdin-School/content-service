@@ -22,8 +22,8 @@ target/
 # Environment files / secrets
 # ------------------------------------------------------------------------------
 .env.local
-.env.production.example
-!.env.production.example
+.env
+!.env
 
 # ------------------------------------------------------------------------------
 # Logs

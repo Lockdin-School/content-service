@@ -1,11 +1,12 @@
+name: lockdin-content-service
 services:
   app:
     build: .
-    container_name: web-server-template
+    container_name: content-service
     ports:
       - "8080:8080"
     env_file:
-      - .env.local.example
+      - .env.local
     networks:
       - lockdin-net
     depends_on:
