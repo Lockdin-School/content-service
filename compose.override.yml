@@ -1,0 +1,38 @@
+services:
+  app:
+    build: .
+    container_name: web-server-template
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.local.example
+    networks:
+      - lockdin-net
+    depends_on:
+      - db
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+  db:
+    container_name: postgresdb
+    image: postgres:16-alpine
+    command: -p 5433
+    ports:
+      - "5433:5433"
+    env_file:
+      - .env.local
+    networks:
+      - lockdin-net
+    volumes:
+      - type: volume
+        source: lockdin-storage
+        target: /var/lib/postgresql/data
+
+
+volumes:
+  lockdin-storage:
+
+networks:
+  lockdin-net:

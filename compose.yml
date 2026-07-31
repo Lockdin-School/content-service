@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    container_name: web-server
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.production.example
+    networks:
+      - lockdin-net
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
