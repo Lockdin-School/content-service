@@ -43,9 +43,8 @@ Desktop.ini
 # ------------------------------------------------------------------------------
 # Docker / local runtime
 # ------------------------------------------------------------------------------
-# todo: uncomment after project setup to keep it local
-#docker-compose.override.yml
-#compose.override.yml
+docker-compose.override.yml
+compose.override.yml
 *.pid
 
 # ------------------------------------------------------------------------------
