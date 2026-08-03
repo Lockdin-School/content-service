@@ -1,3 +1,4 @@
+use crate::core::materials::dto::CreateMaterialRequestDTO::CreateMaterialRequest;
 use crate::core::materials::models::Material::Material;
 use uuid::Uuid;
 
@@ -7,4 +8,9 @@ pub trait MaterialRepository {
         &self,
         topic_id: &Uuid,
     ) -> sqlx::Result<Vec<Material>, sqlx::Error>;
+
+    async fn create_material(
+        &self,
+        material: &CreateMaterialRequest,
+    ) -> sqlx::Result<Material, sqlx::Error>;
 }

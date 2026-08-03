@@ -1,15 +1,36 @@
+name: lockdin-content-service
 services:
-  app:
+  content-service:
     build: .
-    container_name: web-server
-    ports:
-      - "8080:8080"
+    container_name: content-service
+    expose:
+      - "8080"
     env_file:
-      - .env
+      - .env.local
     networks:
-      - lockdin-net
-    develop:
-      watch:
-        - action: sync
-          path: ./src
-          target: /app/src
+      - lockdin-network
+      - cont-sn
+    depends_on:
+      - contentDB
+
+  contentDB:
+    container_name: content-db
+    image: postgres:16-alpine
+    command: -p 5434
+    ports:
+      - "5434:5434"
+    env_file:
+      - .env.local
+    networks:
+      - cont-sn
+    volumes:
+      - type: volume
+        source: lockdin-storage
+        target: /var/lib/postgresql/content/data
+
+
+volumes:
+  lockdin-storage:
+
+networks:
+  cont-sn:
