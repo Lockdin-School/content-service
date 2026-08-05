@@ -7,7 +7,7 @@ use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MaterialResponseDTO {
-    pub id: Uuid,
+    pub material_id: Uuid,
 
     pub code: String,
     pub slug: String,
@@ -42,7 +42,7 @@ pub struct MaterialResponseDTO {
 impl From<Material> for MaterialResponseDTO {
     fn from(material: Material) -> Self {
         Self {
-            id: material.id,
+            material_id: material.material_id,
             code: material.code,
             slug: material.slug,
             title: material.title,

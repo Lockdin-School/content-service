@@ -14,8 +14,7 @@ pub struct CreateMaterialRequest {
     pub topic_id: Uuid,
 
     pub material_type: MaterialType,
-
-    pub display_order: i32,
+    
     pub estimated_duration_seconds: Option<i32>,
 
     pub is_featured: bool,

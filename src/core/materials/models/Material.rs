@@ -8,7 +8,7 @@ pub struct Material {
     // ---------------------------------------------------------------------
     // Identity
     // ---------------------------------------------------------------------
-    pub id: Uuid,
+    pub material_id: Uuid,
     pub code: String,
     pub slug: String,
     pub title: String,

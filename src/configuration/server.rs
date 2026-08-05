@@ -1,7 +1,7 @@
 use crate::configuration::cors::build_cors;
 use crate::configuration::routes;
 use crate::configuration::state::AppState;
-use crate::infrastructure::environment_variables::EnvironmentVars;
+use crate::infrastructure::EnvironmentVariables::EnvironmentVars;
 use actix_web::middleware::Logger;
 use actix_web::web::Data;
 use actix_web::{App, HttpServer};

@@ -11,6 +11,12 @@ pub trait MaterialRepository {
 
     async fn create_material(
         &self,
+        material_id: &Uuid,
         material: &CreateMaterialRequest,
     ) -> sqlx::Result<Material, sqlx::Error>;
+
+    async fn get_material_by_id(
+        &self,
+        id: &Uuid
+    ) -> sqlx::Result<Option<Material>, sqlx::Error>;
 }

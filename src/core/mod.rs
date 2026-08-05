@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 pub mod assignments;
 pub mod exercises;
 pub mod lessons;

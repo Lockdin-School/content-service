@@ -40,26 +40,27 @@ pub async fn get_all_materials(
     }
 }
 
-#[post("")]
-pub async fn create_material(
+
+#[get("/{id}")]
+pub async fn get_material_by_id(
     state: Data<AppState>,
-    material: Json<CreateMaterialRequest>,
+    id: Path<Uuid>,
 ) -> actix_web::Result<HttpResponse> {
     log::info!(
-        "material.post.request.received | handler | create_material | started | \"Received request to create material.\" |"
+        "material.get.request.received | handler | get_material_by_id | started | \"Received request to get material by id.\" |"
     );
-    let material = material.into_inner();
-    match state.material_service.create_material(material).await {
+    let id = id.into_inner();
+    match state.material_service.get_material_by_id(&id).await {
         Ok(materials) => {
             log::info!(
-                "material.post.request.success | handler | create_material | success | \"Received request to create material.\" |"
+                "material.get.request.success | handler | get_material_by_id | success | \"Received request to get material by id.\" |"
             );
             let material: MaterialResponseDTO = MaterialResponseDTO::from(materials);
             Ok(HttpResponse::Ok().json(material))
         }
         Err(error) => {
             log::error!(
-                "material.post.request.failed | handler | create_material | failed | \" Error: {error}\" |"
+                "material.get.request.failed | handler | get_material_by_id | failed | \" Error: {error}\" |"
             );
             Ok(HttpResponse::from_error(error))
         }

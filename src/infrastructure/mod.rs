@@ -1,2 +1,5 @@
+#![allow(non_snake_case)]
+
 pub mod db;
-pub mod environment_variables;
+pub mod EnvironmentVariables;
+pub mod InternalEventBus;

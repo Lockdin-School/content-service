@@ -28,15 +28,15 @@ impl MaterialRepository for PostgresMaterialRepository {
 
     async fn create_material(
         &self,
+        material_id: &Uuid,
         material: &CreateMaterialRequest,
     ) -> sqlx::Result<Material, Error> {
-        let id = Uuid::now_v7();
         sqlx::query_as(
             "
-                    INSERT INTO materials(id, code, slug, title, short_description, description, topic_id, material_type) 
+                    INSERT INTO materials(material_id, code, slug, title, short_description, description, topic_id, material_type)
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *
                    ")
-            .bind(id)
+            .bind(material_id)
             .bind(&material.code)
             .bind(&material.slug)
             .bind(&material.title)
@@ -45,6 +45,16 @@ impl MaterialRepository for PostgresMaterialRepository {
             .bind(material.topic_id)
             .bind(material.material_type)
             .fetch_one(&self.pool)
+            .await
+    }
+
+    async fn get_material_by_id(
+        &self,
+        id: &Uuid
+    ) -> sqlx::Result<Option<Material>, Error> {
+        sqlx::query_as("SELECT * FROM materials WHERE id = $1")
+            .bind(id)
+            .fetch_optional(&self.pool)
             .await
     }
 }
