@@ -43,7 +43,7 @@ impl LessonRepository for PostgresLessonRepository {
         .bind(&lesson.video_url)
         .bind(&lesson.thumbnail_url)
         .bind(&lesson.transcript_url)
-        .bind(&lesson.duration_seconds)
+        .bind(lesson.duration_seconds)
         .bind(&lesson.resolution)
         .bind(&lesson.language)
         .bind(&lesson.captions_url)

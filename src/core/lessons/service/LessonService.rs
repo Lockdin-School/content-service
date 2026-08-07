@@ -1,15 +1,17 @@
-use std::io::Error;
-use std::sync::Arc;
-use actix_web::web::Data;
-use crate::core::lessons::dto::CreateLessonRequest::{CreateLessonRequest, IncomingCreateLessonRequest};
+use crate::core::lessons::dto::CreateLessonRequest::{
+    CreateLessonRequest, IncomingCreateLessonRequest,
+};
 use crate::core::lessons::lessons_events::LessonCreatedPayload;
 use crate::core::lessons::models::Lesson::Lesson;
 use crate::core::lessons::repository::LessonRepository::LessonRepository;
 use crate::infrastructure::InternalEventBus::{Event, EventBus};
 use crate::utils::code::generate_code;
 use crate::utils::slug::generate_slug;
+use actix_web::web::Data;
+use std::io::Error;
+use std::sync::Arc;
 
-pub struct LessonService{
+pub struct LessonService {
     repo: Arc<dyn LessonRepository + Send + Sync>,
     event_bus: Data<EventBus>,
 }
@@ -21,7 +23,7 @@ impl LessonService {
 
     pub async fn create_lesson(
         &self,
-        incoming_lesson: &IncomingCreateLessonRequest
+        incoming_lesson: &IncomingCreateLessonRequest,
     ) -> Result<Lesson, Error> {
         log::info!("lessons.create | service | create_lesson | started | \"Creating lesson\" |");
 
@@ -37,10 +39,11 @@ impl LessonService {
             captions_url: lesson.captions_url,
         };
 
-
         match self.repo.create_lesson(&lesson_request).await {
             Ok(lesson) => {
-                log::info!("lessons.create | service | create_lesson | success | \"Lesson created\" |");
+                log::info!(
+                    "lessons.create | service | create_lesson | success | \"Lesson created\" |"
+                );
 
                 let lesson_created_payload = LessonCreatedPayload {
                     material_id: lesson.id,
@@ -57,15 +60,17 @@ impl LessonService {
 
                 if let Err(e) = self
                     .event_bus
-                    .send(Event::LessonCreated(lesson_created_payload)) {
-                    log::error!("lessons.create | internal_event_bus | create_lesson | failed | \"Failed to publish lesson created event\" | {:?}", e);
+                    .send(Event::LessonCreated(lesson_created_payload))
+                {
+                    log::error!(
+                        "lessons.create | internal_event_bus | create_lesson | failed | \"Failed to publish lesson created event\" | {:?}",
+                        e
+                    );
                 };
-                
+
                 Ok(lesson)
             }
-            Err(e) => {
-                Err(Error::other(e.to_string()))
-            }
+            Err(e) => Err(Error::other(e.to_string())),
         }
     }
 }

@@ -1,5 +1,5 @@
-use tokio::sync::broadcast;
 use crate::core::lessons::lessons_events::LessonCreatedPayload;
+use tokio::sync::broadcast;
 
 pub type EventBus = broadcast::Sender<Event>;
 

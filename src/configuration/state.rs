@@ -1,3 +1,4 @@
+use crate::configuration::events::event_handlers_init;
 use crate::core::lessons::repository::LessonRepositoryImpl::PostgresLessonRepository;
 use crate::core::lessons::service::LessonService::LessonService;
 use crate::core::materials::repository::MaterialRepositoryImpl::PostgresMaterialRepository;
@@ -7,7 +8,6 @@ use crate::infrastructure::db::database::{init_postgres, run_migrations};
 use actix_web::web::Data;
 use sqlx::PgPool;
 use std::sync::Arc;
-use crate::configuration::events::event_handlers_init;
 
 #[derive(Clone)]
 pub struct AppState {
@@ -28,7 +28,9 @@ pub fn app_state(pg_pool: PgPool, event_bus: Data<EventBus>) -> AppState {
 }
 
 pub async fn init_state() -> AppState {
-    log::info!("application.state.init | configuration | init_state | started | \"Initializing state\" |");
+    log::info!(
+        "application.state.init | configuration | init_state | started | \"Initializing state\" |"
+    );
     let pg_pool = init_postgres().await;
 
     run_migrations(&pg_pool).await;

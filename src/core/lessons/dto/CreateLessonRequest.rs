@@ -1,6 +1,6 @@
+use crate::core::materials::models::MaterialType::MaterialType;
 use serde::Deserialize;
 use uuid::Uuid;
-use crate::core::materials::models::MaterialType::MaterialType;
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct IncomingCreateLessonRequest {

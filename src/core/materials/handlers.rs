@@ -1,8 +1,7 @@
 use crate::configuration::state::AppState;
-use crate::core::materials::dto::CreateMaterialRequestDTO::CreateMaterialRequest;
 use crate::core::materials::dto::MaterialResponseDTO::MaterialResponseDTO;
-use actix_web::web::{Data, Json, Path};
-use actix_web::{HttpResponse, get, post};
+use actix_web::web::{Data, Path};
+use actix_web::{HttpResponse, get};
 use uuid::Uuid;
 
 #[get("/{topic_id}/materials")]
@@ -39,7 +38,6 @@ pub async fn get_all_materials(
         }
     }
 }
-
 
 #[get("/{id}")]
 pub async fn get_material_by_id(

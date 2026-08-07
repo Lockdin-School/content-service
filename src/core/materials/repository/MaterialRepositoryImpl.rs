@@ -65,9 +65,9 @@ impl MaterialRepository for PostgresMaterialRepository {
             WHERE topic_id = $1
             "#,
         )
-            .bind(topic_id)
-            .fetch_one(&self.pool)
-            .await?;
+        .bind(topic_id)
+        .fetch_one(&self.pool)
+        .await?;
 
         Ok(next)
     }

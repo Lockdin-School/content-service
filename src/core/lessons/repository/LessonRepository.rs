@@ -5,11 +5,11 @@ use crate::core::lessons::models::Lesson::Lesson;
 pub trait LessonRepository {
     async fn get_lesson_by_id(
         &self,
-        material_id: uuid::Uuid
+        material_id: uuid::Uuid,
     ) -> sqlx::Result<Option<Lesson>, sqlx::Error>;
 
     async fn create_lesson(
         &self,
-        lesson: &CreateLessonRequest
+        lesson: &CreateLessonRequest,
     ) -> sqlx::Result<Lesson, sqlx::Error>;
 }

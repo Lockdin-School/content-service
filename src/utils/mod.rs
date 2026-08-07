@@ -1,2 +1,2 @@
-pub mod slug;
 pub mod code;
+pub mod slug;

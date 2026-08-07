@@ -1,8 +1,8 @@
-use std::sync::Arc;
-use actix_web::web::Data;
-use tokio::sync::broadcast::Sender;
 use crate::configuration::state::AppState;
 use crate::infrastructure::InternalEventBus::Event;
+use actix_web::web::Data;
+use std::sync::Arc;
+use tokio::sync::broadcast::Sender;
 
 pub async fn event_handlers_init(tx: Sender<Event>, state: Data<AppState>) {
     // --- SPAWN MATERIAL SUBSCRIBER ---

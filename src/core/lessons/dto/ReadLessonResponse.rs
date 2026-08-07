@@ -1,6 +1,6 @@
+use crate::core::lessons::models::Lesson::Lesson;
 use serde::Serialize;
 use uuid::Uuid;
-use crate::core::lessons::models::Lesson::Lesson;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct ReadLessonResponse {

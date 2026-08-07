@@ -98,7 +98,11 @@ impl MaterialService {
             "material.create.start | service | create_material | started | \"Creating material.\" |"
         );
         let display_order = self.next_display_order(&material.topic_id).await?;
-        match self.repo.create_material(material_id, &material, display_order).await {
+        match self
+            .repo
+            .create_material(material_id, &material, display_order)
+            .await
+        {
             Ok(material) => {
                 log::info!(
                     "material.create.success | service | create_material | success | \"Created material successfully.\" |",
@@ -119,7 +123,7 @@ impl MaterialService {
         log::info!(
             "material.get.start | service | get_material_by_id | started | \"Getting material.\" |"
         );
-        match self.repo.get_material_by_id(&id).await {
+        match self.repo.get_material_by_id(id).await {
             Ok(opt_material) => match opt_material {
                 Some(material) => {
                     log::info!(
@@ -148,7 +152,7 @@ impl MaterialService {
         log::info!(
             "materials.get.started | service | next_display_order | started | \"Getting next display order\" |"
         );
-        match self.repo.next_display_order(&topic_id).await {
+        match self.repo.next_display_order(topic_id).await {
             Ok(display_order) => {
                 log::info!(
                     "materials.get.started | service | next_display_order | success | \"Returned next display order successfully\" | display_order={}",
