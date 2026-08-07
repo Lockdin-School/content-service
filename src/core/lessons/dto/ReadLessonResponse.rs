@@ -1,5 +1,4 @@
 use serde::Serialize;
-use sqlx::FromRow;
 use uuid::Uuid;
 use crate::core::lessons::models::Lesson::Lesson;
 

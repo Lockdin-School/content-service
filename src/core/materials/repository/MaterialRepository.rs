@@ -13,10 +13,10 @@ pub trait MaterialRepository {
         &self,
         material_id: &Uuid,
         material: &CreateMaterialRequest,
+        display_order: i32,
     ) -> sqlx::Result<Material, sqlx::Error>;
 
-    async fn get_material_by_id(
-        &self,
-        id: &Uuid
-    ) -> sqlx::Result<Option<Material>, sqlx::Error>;
+    async fn get_material_by_id(&self, id: &Uuid) -> sqlx::Result<Option<Material>, sqlx::Error>;
+
+    async fn next_display_order(&self, topic_id: &Uuid) -> sqlx::Result<i32, sqlx::Error>;
 }

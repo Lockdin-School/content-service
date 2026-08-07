@@ -1,11 +1,11 @@
 use crate::core::materials::dto::CreateMaterialRequestDTO::CreateMaterialRequest;
 use crate::core::materials::models::Material::Material;
+use crate::core::materials::models::MaterialType::MaterialType;
 use crate::core::materials::repository::MaterialRepository::MaterialRepository;
 use crate::infrastructure::InternalEventBus::Event;
 use std::io::{Error, ErrorKind};
 use std::sync::Arc;
 use uuid::Uuid;
-use crate::core::materials::models::MaterialType::MaterialType;
 
 pub struct MaterialService {
     repo: Arc<dyn MaterialRepository + Send + Sync>,
@@ -46,11 +46,20 @@ impl MaterialService {
                     };
 
                     // Trigger material creation
-                    match self.create_material( &payload.material_id ,material_request).await {
+                    match self
+                        .create_material(&payload.material_id, material_request)
+                        .await
+                    {
                         Ok(_) => {
-                            log::info!("materials.events.listen | service | materials_events_handler | success | \"Material created\" |");
-                        }, Err(e) => {
-                            log::error!("materials.events.listen | service | materials_events_handler | failed | \"Failed to create material\" | error=\"{}\"", e);
+                            log::info!(
+                                "materials.events.listen | service | materials_events_handler | success | \"Material created\" |"
+                            );
+                        }
+                        Err(e) => {
+                            log::error!(
+                                "materials.events.listen | service | materials_events_handler | failed | \"Failed to create material\" | error=\"{}\"",
+                                e
+                            );
                         }
                     }
                 }
@@ -88,7 +97,8 @@ impl MaterialService {
         log::info!(
             "material.create.start | service | create_material | started | \"Creating material.\" |"
         );
-        match self.repo.create_material(material_id, &material).await {
+        let display_order = self.next_display_order(&material.topic_id).await?;
+        match self.repo.create_material(material_id, &material, display_order).await {
             Ok(material) => {
                 log::info!(
                     "material.create.success | service | create_material | success | \"Created material successfully.\" |",
@@ -130,6 +140,28 @@ impl MaterialService {
                     error
                 );
                 Err(Error::other(error.to_string()))
+            }
+        }
+    }
+
+    pub async fn next_display_order(&self, topic_id: &Uuid) -> Result<i32, Error> {
+        log::info!(
+            "materials.get.started | service | next_display_order | started | \"Getting next display order\" |"
+        );
+        match self.repo.next_display_order(&topic_id).await {
+            Ok(display_order) => {
+                log::info!(
+                    "materials.get.started | service | next_display_order | success | \"Returned next display order successfully\" | display_order={}",
+                    display_order
+                );
+                Ok(display_order)
+            }
+            Err(e) => {
+                log::error!(
+                    "materials.get.started | service | next_display_order | failed | \"Failed to get next display order\" | error=\"{}\"",
+                    e
+                );
+                Err(Error::other(e.to_string()))
             }
         }
     }

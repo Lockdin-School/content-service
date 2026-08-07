@@ -30,31 +30,45 @@ impl MaterialRepository for PostgresMaterialRepository {
         &self,
         material_id: &Uuid,
         material: &CreateMaterialRequest,
+        display_order: i32,
     ) -> sqlx::Result<Material, Error> {
         sqlx::query_as(
             "
-                    INSERT INTO materials(material_id, code, slug, title, short_description, description, topic_id, material_type)
-                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *
+                    INSERT INTO materials(material_id, code, slug, title, short_description, description, topic_id, material_type, display_order)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *
                    ")
             .bind(material_id)
             .bind(&material.code)
             .bind(&material.slug)
             .bind(&material.title)
             .bind(&material.short_description)
-            .bind(& material.description)
+            .bind(&material.description)
             .bind(material.topic_id)
             .bind(material.material_type)
+            .bind(display_order)
             .fetch_one(&self.pool)
             .await
     }
 
-    async fn get_material_by_id(
-        &self,
-        id: &Uuid
-    ) -> sqlx::Result<Option<Material>, Error> {
-        sqlx::query_as("SELECT * FROM materials WHERE id = $1")
+    async fn get_material_by_id(&self, id: &Uuid) -> sqlx::Result<Option<Material>, Error> {
+        sqlx::query_as("SELECT * FROM materials WHERE material_id = $1")
             .bind(id)
             .fetch_optional(&self.pool)
             .await
+    }
+
+    async fn next_display_order(&self, topic_id: &Uuid) -> sqlx::Result<i32, Error> {
+        let next: i32 = sqlx::query_scalar(
+            r#"
+            SELECT COALESCE(MAX(display_order), 0) + 1
+            FROM materials
+            WHERE topic_id = $1
+            "#,
+        )
+            .bind(topic_id)
+            .fetch_one(&self.pool)
+            .await?;
+
+        Ok(next)
     }
 }

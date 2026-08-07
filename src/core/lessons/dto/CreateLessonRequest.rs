@@ -15,8 +15,6 @@ pub struct IncomingCreateLessonRequest {
 
     pub material_type: MaterialType,
 
-    pub display_order: i32,
-
     // ---------------------------------------------------------------------
     // Video
     // ---------------------------------------------------------------------
