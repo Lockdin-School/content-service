@@ -3,6 +3,7 @@ use serde::Serialize;
 use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ReadLessonResponse {
     // ---------------------------------------------------------------------
     // Identity / Relationship

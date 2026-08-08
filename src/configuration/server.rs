@@ -8,7 +8,7 @@ use actix_web::{App, HttpServer};
 use tokio::io;
 
 pub async fn run(state: AppState) -> io::Result<()> {
-    log::info!("running server...");
+    log::info!("application.server.start | server | run | started | Running server.");
     let ev = EnvironmentVars::init();
     HttpServer::new(move || {
         App::new()

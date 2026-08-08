@@ -21,6 +21,25 @@ impl LessonService {
         Self { repo, event_bus }
     }
 
+    pub async fn get_lesson_by_id(&self, id: uuid::Uuid) -> Result<Lesson, Error> {
+        match self.repo.get_lesson_by_id(id).await {
+            Ok(lesson) => match lesson {
+                Some(lesson) => {
+                    log::info!("lesson.get | service | get_lesson_by_id | success | \"Lesson found\" |");
+                    Ok(lesson)
+                },
+                None => {
+                    log::error!("lesson.get | service | get_lesson_by_id | failure | \"Lesson not found\" |");
+                    Err(Error::new(std::io::ErrorKind::NotFound, "Lesson not found"))
+                }
+            },
+            Err(e) => {
+                log::error!("lesson.get | service | get_lesson_by_id | failure | \"{:?}\" |", e);
+                Err(Error::other(e.to_string()))
+            }
+        }
+    }
+
     pub async fn create_lesson(
         &self,
         incoming_lesson: &IncomingCreateLessonRequest,
