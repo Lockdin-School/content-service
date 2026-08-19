@@ -19,4 +19,6 @@ pub trait MaterialRepository {
     async fn get_material_by_id(&self, id: &Uuid) -> sqlx::Result<Option<Material>, sqlx::Error>;
 
     async fn next_display_order(&self, topic_id: &Uuid) -> sqlx::Result<i32, sqlx::Error>;
+
+    // async fn has_next_material(&self, topic_id: &Uuid) -> sqlx::Result<bool, sqlx::Error>;
 }

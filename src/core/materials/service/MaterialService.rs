@@ -169,4 +169,6 @@ impl MaterialService {
             }
         }
     }
+    
+    // pub async fn has_next(&self, topic_id: &Uuid) -> Result<bool, Error>
 }
