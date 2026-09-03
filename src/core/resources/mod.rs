@@ -1,6 +1,6 @@
 pub mod dto;
-pub mod repository;
-pub mod service;
-pub mod models;
 pub mod handlers;
+pub mod models;
+pub mod repository;
 pub mod resource_events;
+pub mod service;

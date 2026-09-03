@@ -1,8 +1,13 @@
 use crate::configuration::events::event_handlers_init;
+use crate::core::concepts::repository::ConceptRepositoryImpl::PostgresConceptRepository;
+use crate::core::concepts::service::ConceptService::ConceptService;
 use crate::core::lessons::repository::LessonRepositoryImpl::PostgresLessonRepository;
 use crate::core::lessons::service::LessonService::LessonService;
 use crate::core::materials::repository::MaterialRepositoryImpl::PostgresMaterialRepository;
 use crate::core::materials::service::MaterialService::MaterialService;
+use crate::core::quizzes::repositories::implementations::QuizQuestionRepoImpl::PostgresQuizQuestionRepo;
+use crate::core::quizzes::repositories::implementations::QuizRepoImpl::PostgresQuizRepo;
+use crate::core::quizzes::service::QuizService::QuizService;
 use crate::infrastructure::InternalEventBus::{EventBus, init_event_bus};
 use crate::infrastructure::db::database::{init_postgres, run_migrations};
 use actix_web::web::Data;
@@ -13,6 +18,8 @@ use std::sync::Arc;
 pub struct AppState {
     pub material_service: Data<MaterialService>,
     pub lesson_service: Data<LessonService>,
+    pub concept_service: Data<ConceptService>,
+    pub quiz_service: Data<QuizService>,
 }
 
 pub fn app_state(pg_pool: PgPool, event_bus: Data<EventBus>) -> AppState {
@@ -22,6 +29,15 @@ pub fn app_state(pg_pool: PgPool, event_bus: Data<EventBus>) -> AppState {
         ))),
         lesson_service: Data::new(LessonService::new(
             Arc::new(PostgresLessonRepository::new(pg_pool.clone())),
+            event_bus.clone(),
+        )),
+        concept_service: Data::new(ConceptService::new(
+            Arc::new(PostgresConceptRepository::new(pg_pool.clone())),
+            event_bus.clone(),
+        )),
+        quiz_service: Data::new(QuizService::new(
+            Arc::new(PostgresQuizRepo::new(pg_pool.clone())),
+            Arc::new(PostgresQuizQuestionRepo::new(pg_pool.clone())),
             event_bus.clone(),
         )),
     }

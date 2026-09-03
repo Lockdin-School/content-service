@@ -5,6 +5,7 @@ use sqlx::Type;
 #[sqlx(type_name = "material_type", rename_all = "lowercase")]
 pub enum MaterialType {
     Lesson,
+    Concept,
     Resource,
     Exercise,
     Quiz,

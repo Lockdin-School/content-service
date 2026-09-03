@@ -25,16 +25,23 @@ impl LessonService {
         match self.repo.get_lesson_by_id(id).await {
             Ok(lesson) => match lesson {
                 Some(lesson) => {
-                    log::info!("lesson.get | service | get_lesson_by_id | success | \"Lesson found\" |");
+                    log::info!(
+                        "lesson.get | service | get_lesson_by_id | success | \"Lesson found\" |"
+                    );
                     Ok(lesson)
-                },
+                }
                 None => {
-                    log::error!("lesson.get | service | get_lesson_by_id | failure | \"Lesson not found\" |");
+                    log::error!(
+                        "lesson.get | service | get_lesson_by_id | failure | \"Lesson not found\" |"
+                    );
                     Err(Error::new(std::io::ErrorKind::NotFound, "Lesson not found"))
                 }
             },
             Err(e) => {
-                log::error!("lesson.get | service | get_lesson_by_id | failure | \"{:?}\" |", e);
+                log::error!(
+                    "lesson.get | service | get_lesson_by_id | failure | \"{:?}\" |",
+                    e
+                );
                 Err(Error::other(e.to_string()))
             }
         }

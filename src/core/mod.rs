@@ -1,6 +1,7 @@
 #![allow(non_snake_case)]
 
 pub mod assignments;
+pub mod concepts;
 pub mod exercises;
 pub mod lessons;
 pub mod materials;

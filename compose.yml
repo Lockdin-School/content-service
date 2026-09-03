@@ -1,4 +1,4 @@
-name: lockdin-content-service
+name: lockdin-school
 services:
   content-service:
     build: .

@@ -2,7 +2,7 @@ use crate::configuration::state::AppState;
 use crate::core::lessons::dto::CreateLessonRequest::IncomingCreateLessonRequest;
 use crate::core::lessons::dto::ReadLessonResponse::ReadLessonResponse;
 use actix_web::web::{Data, Json, Path};
-use actix_web::{HttpResponse, post, get};
+use actix_web::{HttpResponse, get, post};
 use uuid::Uuid;
 
 #[post("")]
@@ -45,7 +45,9 @@ pub async fn get_lesson_by_id(
     );
     match state.lesson_service.get_lesson_by_id(id.into_inner()).await {
         Ok(lesson) => {
-            log::info!("lesson.get.success | handler | get_lesson_by_id | success | \"Lesson found.\" |");
+            log::info!(
+                "lesson.get.success | handler | get_lesson_by_id | success | \"Lesson found.\" |"
+            );
             let lesson = ReadLessonResponse::from(lesson);
             Ok(HttpResponse::Ok().json(lesson))
         }

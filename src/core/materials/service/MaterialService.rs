@@ -52,7 +52,75 @@ impl MaterialService {
                     {
                         Ok(_) => {
                             log::info!(
-                                "materials.events.listen | service | materials_events_handler | success | \"Material created\" |"
+                                "materials.events.listen | service | materials_events_handler | success | \"Lesson material created\" |"
+                            );
+                        }
+                        Err(e) => {
+                            log::error!(
+                                "materials.events.listen | service | materials_events_handler | failed | \"Failed to create material\" | error=\"{}\"",
+                                e
+                            );
+                        }
+                    }
+                }
+                Event::QuizCreated(payload) => {
+                    log::info!(
+                        "materials.events.listen | service | materials_events_handler | success | \"Received event: QuizCreated.\" |"
+                    );
+
+                    let quiz_request = CreateMaterialRequest {
+                        code: payload.code,
+                        slug: payload.slug,
+                        title: payload.title,
+                        short_description: None,
+                        description: payload.description,
+                        topic_id: payload.topic_id,
+                        material_type: MaterialType::Quiz,
+                        estimated_duration_seconds: payload.estimated_duration_seconds,
+                        is_featured: false,
+                        is_free: false,
+                    };
+
+                    // Trigger material creation
+                    match self.create_material(&payload.quiz_id, quiz_request).await {
+                        Ok(_) => {
+                            log::info!(
+                                "materials.events.listen | service | materials_events_handler | success | \"Quiz material created\" |"
+                            );
+                        }
+                        Err(e) => {
+                            log::error!(
+                                "materials.events.listen | service | materials_events_handler | failed | \"Failed to create material\" | error=\"{}\"",
+                                e
+                            );
+                        }
+                    }
+                }
+                Event::ConceptCreated(payload) => {
+                    log::info!(
+                        "materials.events.listen | service | materials_events_handler | success | \"Received event: ConceptCreated.\" |"
+                    );
+
+                    let concept_request = CreateMaterialRequest {
+                        code: payload.code,
+                        slug: payload.slug,
+                        title: payload.title,
+                        short_description: None,
+                        description: payload.description,
+                        topic_id: payload.topic_id,
+                        material_type: MaterialType::Concept,
+                        estimated_duration_seconds: payload.estimated_duration_seconds,
+                        is_featured: false,
+                        is_free: false,
+                    };
+
+                    match self
+                        .create_material(&payload.material_id, concept_request)
+                        .await
+                    {
+                        Ok(_) => {
+                            log::info!(
+                                "materials.events.listen | service | materials_events_handler | success | \"Concept material created\" |"
                             );
                         }
                         Err(e) => {
@@ -169,6 +237,6 @@ impl MaterialService {
             }
         }
     }
-    
+
     // pub async fn has_next(&self, topic_id: &Uuid) -> Result<bool, Error>
 }

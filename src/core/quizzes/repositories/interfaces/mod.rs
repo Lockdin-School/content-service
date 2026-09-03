@@ -1,4 +1,4 @@
-pub mod QuizRepository;
-pub mod QuizQuestionRepository;
 pub mod QuizAttemptRepository;
+pub mod QuizQuestionRepository;
 pub mod QuizQuestionResponseRepository;
+pub mod QuizRepository;

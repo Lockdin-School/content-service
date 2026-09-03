@@ -1,8 +1,8 @@
+use crate::core::quizzes::models::QuizQuestionResponse::QuizQuestionResponse;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sqlx::{FromRow, Type};
 use uuid::Uuid;
-use crate::core::quizzes::models::QuizQuestionResponse::QuizQuestionResponse;
 
 /// Represents a student's attempt to complete a quiz.
 ///
@@ -92,4 +92,3 @@ pub enum QuizAttemptStatus {
     /// The student left the quiz before submitting it.
     Abandoned,
 }
-

@@ -1,5 +1,5 @@
+pub mod concepts_events;
 pub mod handlers;
 pub mod models;
-pub mod quizzes_events;
-pub mod repositories;
+pub mod repository;
 pub mod service;
