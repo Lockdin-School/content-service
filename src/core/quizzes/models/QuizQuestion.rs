@@ -19,9 +19,6 @@ pub struct NewQuizQuestion {
 
     /// Zero-based position of the question within the quiz.
     pub order: i32,
-
-    /// Options available to the student for this question.
-    pub options: Vec<QuizQuestionOption>,
 }
 
 /// Represents a question belonging to a quiz.
@@ -49,16 +46,29 @@ pub struct QuizQuestion {
 
     /// Zero-based position of the question within the quiz.
     pub order: i32,
+}
 
-    /// Options available to the student for this question.
-    pub options: Vec<QuizQuestionOption>,
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Type)]
+#[serde(rename_all = "camelCase")]
+pub struct NewQuizQuestionOption {
+    /// Identifier of the quiz question to which this option belongs.
+    pub question_id: Uuid,
+
+    /// Text presented to the student as the selectable option.
+    pub text: String,
+
+    /// Indicates whether selecting this option constitutes a correct answer.
+    pub is_correct: bool,
+
+    /// Zero-based position of the option within the question.
+    pub order: i32,
 }
 
 /// Represents a selectable option belonging to a quiz question.
 ///
 /// Options are used by question types that require the student
 /// to select from a predefined set of answers.
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Type)]
+#[derive(Debug, Clone, Serialize, Deserialize, FromRow, PartialEq, Eq, Type)]
 #[serde(rename_all = "camelCase")]
 pub struct QuizQuestionOption {
     /// Unique identifier for the option.
@@ -77,10 +87,12 @@ pub struct QuizQuestionOption {
     pub order: i32,
 }
 
+
+
 /// Defines the supported formats for quiz questions.
 #[derive(Debug, Clone, Serialize, Deserialize, Copy, PartialEq, Eq, Type)]
 #[serde(rename_all = "camelCase")]
-#[sqlx(type_name = "question_type", rename_all = "lowercase")]
+#[sqlx(type_name = "question_type", rename_all = "camelCase")]
 pub enum QuizQuestionType {
     /// A question with a predefined set of selectable answers.
     MultipleChoice,

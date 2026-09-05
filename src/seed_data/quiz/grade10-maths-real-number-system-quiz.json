@@ -1,0 +1,178 @@
+{
+  "quiz": {
+    "lessonId": "5a0703ed-e486-4c3f-92a6-35b0d4a59395",
+    "topicId": "9f9a3dbf-abf5-473c-9e18-fb48d247b98a ",
+    "title": "Grade 10 Maths: The Real Number System",
+    "description": "A quick localized tutorial quiz to test your understanding of natural, whole, rational, irrational, and non-real numbers.",
+    "difficulty": "Easy",
+    "passingScore": 6,
+    "estimatedDurationMinutes": 10
+  },
+  "questions": [
+    {
+      "quizId": "01a070a6-a5d4-7621-bf69-4b985b359a13",
+      "questionType": "multiplechoice",
+      "prompt": "On a freezing winter morning in **Sutherland** (Northern Cape), the temperature drops to $-6^\\circ\\text{C}$. To which of the following nested number sets does $-6$ belong?",
+      "points": 2,
+      "order": 0,
+      "options": [
+        {
+          "questionId": "01a0719e-628b-7d62-acf4-16efc2b40d0d",
+          "text": "Natural Numbers ($\\mathbb{N}$) only",
+          "isCorrect": false,
+          "order": 0
+        },
+        {
+          "questionId": "01a0719e-628b-7d62-acf4-16efc2b40d0d",
+          "text": "Whole Numbers ($\\mathbb{N}_0$) only",
+          "isCorrect": false,
+          "order": 1
+        },
+        {
+          "questionId": "01a0719e-628b-7d62-acf4-16efc2b40d0d",
+          "text": "Integers ($\\mathbb{Z}$), Rational Numbers ($\\mathbb{Q}$), and Real Numbers ($\\mathbb{R}$)",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "questionId": "01a0719e-628b-7d62-acf4-16efc2b40d0d",
+          "text": "Irrational Numbers ($\\mathbb{Q}'$) and Non-real Numbers ($\\mathbb{R}'$)",
+          "isCorrect": false,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "quizId": "01a070a6-a5d4-7621-bf69-4b985b359a13",
+      "questionType": "multiplechoice",
+      "prompt": "Which of the following expressions will simplify to a **non-real (imaginary)** number ($\\mathbb{R}'$)?",
+      "points": 2,
+      "order": 1,
+      "options": [
+        {
+          "questionId": "01a0736f-f517-77e0-a2e7-a6c94d5bdf48",
+          "text": "$\\sqrt{-16}$",
+          "isCorrect": true,
+          "order": 0
+        },
+        {
+          "questionId": "01a0736f-f517-77e0-a2e7-a6c94d5bdf48",
+          "text": "$\\sqrt[3]{-125}$",
+          "isCorrect": false,
+          "order": 1
+        },
+        {
+          "questionId": "01a0736f-f517-77e0-a2e7-a6c94d5bdf48",
+          "text": "$-\\sqrt{25}$",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "questionId": "01a0736f-f517-77e0-a2e7-a6c94d5bdf48",
+          "text": "$\\sqrt{0}$",
+          "isCorrect": false,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "quizId": "01a070a6-a5d4-7621-bf69-4b985b359a13",
+      "questionType": "multiplechoice",
+      "prompt": "At a local spaza shop, a customer buys $\\frac{2}{3}$ of a loaf of bread. By mathematical definition, what type of number is $\\frac{2}{3}$?",
+      "points": 2,
+      "order": 2,
+      "options": [
+        {
+          "questionId": "01a0739e-5d96-7272-ad0e-dc3cbd0e02b8",
+          "text": "An irrational number ($\\mathbb{Q}'$) because its decimal value goes on forever",
+          "isCorrect": false,
+          "order": 0
+        },
+        {
+          "questionId": "01a0739e-5d96-7272-ad0e-dc3cbd0e02b8",
+          "text": "A rational number ($\\mathbb{Q}$) because it is expressed as $\\frac{a}{b}$ where $a, b \\in \\mathbb{Z}$ and $b \\neq 0$",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "questionId": "01a0739e-5d96-7272-ad0e-dc3cbd0e02b8",
+          "text": "An integer ($\\mathbb{Z}$) because bread slices are countable",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "questionId": "01a0739e-5d96-7272-ad0e-dc3cbd0e02b8",
+          "text": "A non-real number ($\\mathbb{R}'$)",
+          "isCorrect": false,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "quizId": "01a070a6-a5d4-7621-bf69-4b985b359a13",
+      "questionType": "multiplechoice",
+      "prompt": "A student calculates a ratio and gets $0,\\overline{18}$ (which repeats as $0,181818\\dots$). Under which category is this number classified?",
+      "points": 2,
+      "order": 3,
+      "options": [
+        {
+          "questionId": "01a073c9-c842-7df1-b2bf-a485dccf6383",
+          "text": "Irrational ($\\mathbb{Q}'$) because the decimal places are infinite",
+          "isCorrect": false,
+          "order": 0
+        },
+        {
+          "questionId": "01a073c9-c842-7df1-b2bf-a485dccf6383",
+          "text": "Rational ($\\mathbb{Q}$) because it is a recurring decimal and can be expressed as the exact fraction $\\frac{2}{11}$",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "questionId": "01a073c9-c842-7df1-b2bf-a485dccf6383",
+          "text": "Non-real ($\\mathbb{R}'$)",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "questionId": "01a073c9-c842-7df1-b2bf-a485dccf6383",
+          "text": "Integer ($\\mathbb{Z}$)",
+          "isCorrect": false,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "quizId": "01a070a6-a5d4-7621-bf69-4b985b359a13",
+      "questionType": "multiplechoice",
+      "prompt": "The diameter of a circular roundabout in **Soweto** is measured, and the ratio of its circumference to its diameter is exactly $\\pi$. Which statement about $\\pi$ is correct?",
+      "points": 2,
+      "order": 4,
+      "options": [
+        {
+          "questionId": "01a073cc-f0de-76a0-9f6b-8ee039efa7b3",
+          "text": "It is rational ($\\mathbb{Q}$) because it can be written exactly as the fraction $\\frac{22}{7}$",
+          "isCorrect": false,
+          "order": 0
+        },
+        {
+          "questionId": "01a073cc-f0de-76a0-9f6b-8ee039efa7b3",
+          "text": "It is irrational ($\\mathbb{Q}'$) because it is a non-terminating, non-recurring decimal",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "questionId": "01a073cc-f0de-76a0-9f6b-8ee039efa7b3",
+          "text": "It is non-real ($\\mathbb{R}'$) because it cannot be drawn precisely on a blackboard",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "questionId": "01a073cc-f0de-76a0-9f6b-8ee039efa7b3",
+          "text": "It is a whole number ($\\mathbb{N}_0$)",
+          "isCorrect": false,
+          "order": 3
+        }
+      ]
+    }
+  ]
+}

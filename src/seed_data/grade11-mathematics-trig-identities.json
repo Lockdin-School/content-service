@@ -1,0 +1,96 @@
+{
+  "topicId": "e6904777-02e5-4340-a354-be03087df960",
+  "title": "Trigonometric Identities",
+  "displayOrder": 2,
+  "definitions": [
+    {
+      "title": "What is a Trigonometric Identity?",
+      "text": "A **trigonometric identity** is a mathematical equation involving trigonometric functions that is true for every single value of the variable (angle) for which both sides of the equation are defined. These identities allow us to rewrite and simplify complex expressions."
+    },
+    {
+      "title": "The Quotient Identity",
+      "text": "The **Quotient Identity** states that the tangent of an angle is the ratio of its sine to its cosine:\n\n$$\\tan \\theta = \\frac{\\sin \\theta}{\\cos \\theta}$$\n\n*Restriction:* Since division by zero is undefined, this identity only holds true when $\\cos \\theta \\neq 0$, meaning $\\theta \\neq 90^\\circ + k \\cdot 180^\\circ$ where $k \\in \\mathbb{Z}$."
+    },
+    {
+      "title": "The Square Identity",
+      "text": "The **Square Identity** (derived from the Pythagorean theorem on the Cartesian plane) states that for any angle $\\theta$:\n\n$$\\sin^2 \\theta + \\cos^2 \\theta = 1$$\n\nFrom this parent identity, we can derive two extremely useful alternative forms:\n1. $\\sin^2 \\theta = 1 - \\cos^2 \\theta$\n2. $\\cos^2 \\theta = 1 - \\sin^2 \\theta$"
+    }
+  ],
+  "explanation": [
+    {
+      "subtitle": "Proving the Identities from First Principles",
+      "paragraphs": [
+        "We can easily prove these identities using our Cartesian coordinate definitions: $\\sin \\theta = \\frac{y}{r}$, $\\cos \\theta = \\frac{x}{r}$, and $\\tan \\theta = \\frac{y}{x}$, where $r = \\sqrt{x^2 + y^2}$.",
+        "**1. Proving the Quotient Identity:**",
+        "Start with the right-hand side (RHS):",
+        "$$\\frac{\\sin \\theta}{\\cos \\theta} = \\frac{\\frac{y}{r}}{\\frac{x}{r}} = \\frac{y}{r} \\div \\frac{x}{r} = \\frac{y}{r} \\times \\frac{r}{x} = \\frac{y}{x}$$",
+        "Since $\\frac{y}{x}$ is the exact definition of $\\tan \\theta$, we have proven that $\\tan \\theta = \\frac{\\sin \\theta}{\\cos \\theta}$.",
+        "**2. Proving the Square Identity:**",
+        "Using the Theorem of Pythagoras on the Cartesian plane, we know that $x^2 + y^2 = r^2$. Now look at the sum of the squared ratios:",
+        "$$\\sin^2 \\theta + \\cos^2 \\theta = \\left(\\frac{y}{r}\\right)^2 + \\left(\\frac{x}{r}\\right)^2 = \\frac{y^2}{r^2} + \\frac{x^2}{r^2} = \\frac{x^2 + y^2}{r^2}$$",
+        "Substitute the Pythagorean identity $x^2 + y^2 = r^2$ into the numerator:",
+        "$$\\frac{r^2}{r^2} = 1$$",
+        "Thus, $\\sin^2 \\theta + \\cos^2 \\theta = 1$ is proven."
+      ]
+    },
+    {
+      "subtitle": "How to Approach Proving Trigonometric Identities",
+      "paragraphs": [
+        "Proving an identity means showing that the Left-Hand Side (LHS) is mathematically identical to the Right-Hand Side (RHS). Follow these strategic guidelines:",
+        "1. **Convert to Sine and Cosine:** Rewrite any $\\tan \\theta$ terms immediately using the quotient identity: $\\tan \\theta = \\frac{\\sin \\theta}{\\cos \\theta}$. This reduces the number of variables you are working with.",
+        "2. **Start with the Complicated Side:** It is almost always easier to simplify a complex, messy expression down to a simpler one than it is to build a simple expression up.",
+        "3. **Use Algebraic Skills:** Look out for opportunities to find a Lowest Common Denominator (LCD) to add fractions, factorise (like a difference of squares), or expand brackets.",
+        "4. **Use the Square Identity to Swap Terms:** If you see a $1 - \\sin^2 \\theta$, substitute it with $\\cos^2 \\theta$ immediately, and vice versa."
+      ]
+    }
+  ],
+  "analogy": [
+    {
+      "subtitle": "Think of Sine and Cosine as Mealie Meal and Water (The Spaza Shop Metaphor)",
+      "paragraphs": [
+        "In a traditional South African kitchen, two of the absolute most basic, foundational ingredients are **mealie meal** (representing $\\sin \\theta$) and **water** (representing $\\cos \\theta$). These are your raw, simple building blocks.",
+        "Now, imagine you want to make **pap** (representing $\\tan \\theta$). How do you make it? You combine your mealie meal and water in a specific pot-ratio: $$\\text{Pap} = \\frac{\\text{Mealie Meal}}{\\text{Water}} \\quad \\Longleftrightarrow \\quad \\tan \\theta = \\frac{\\sin \\theta}{\\cos \\theta}$$",
+        "If a recipe (an expression) asks for a cup of pap, but your cupboard is out of pre-made pap, you don't panic! You can simply replace it with a mixture of mealie meal over water. This is exactly what we do when we simplify a trig expression\u2014we get rid of $\\tan \\theta$ by breaking it down into its basic ingredients: $\\sin \\theta$ and $\\cos \\theta$.",
+        "What about the Square Identity? Imagine a specific traditional recipe where one scoop of mealie meal squared plus one cup of water squared always perfectly fills exactly **one standard enamel mug** ($1$). No matter how you tilt the mug, the combined physical relationship remains constant: $$\\sin^2 \\theta + \\cos^2 \\theta = 1$$",
+        "By understanding these raw ingredients, you can look at any complicated feast on the table and simplify it down to see exactly how much mealie meal and water was used to make it!"
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "title": "Simplifying a Trigonometric Expression",
+      "description": "Simplify the expression completely: $\\tan^2 \\theta \\cdot \\cos^2 \\theta$.",
+      "expression": "\\tan^2 \\theta \\cdot \\cos^2 \\theta = \\sin^2 \\theta",
+      "steps": [
+        "Identify the non-sine/cosine term: $\\tan^2 \\theta$. Using the Quotient Identity, we know that $\\tan \\theta = \\frac{\\sin \\theta}{\\cos \\theta}$, which means $\\tan^2 \\theta = \\frac{\\sin^2 \\theta}{\\cos^2 \\theta}$.",
+        "Substitute this fraction back into the expression:\n   $$\\left(\\frac{\\sin^2 \\theta}{\\cos^2 \\theta}\\right) \\cdot \\cos^2 \\theta$$",
+        "Cancel the common factor of $\\cos^2 \\theta$ from the numerator and denominator:\n   $$\\frac{\\sin^2 \\theta}{\\cancel{\\cos^2 \\theta}} \\cdot \\cancel{\\cos^2 \\theta} = \\sin^2 \\theta$$"
+      ],
+      "conclusion": "Therefore, the expression simplifies completely to $\\sin^2 \\theta$."
+    },
+    {
+      "title": "Proving a Fractional Trigonometric Identity",
+      "description": "Prove the identity: $\\frac{1}{\\cos^2 \\theta} - \\tan^2 \\theta = 1$.",
+      "expression": "\\frac{1}{\\cos^2 \\theta} - \\tan^2 \\theta = 1",
+      "steps": [
+        "Choose the Left-Hand Side (LHS) as it is the more complicated side to simplify:\n   $$\\text{LHS} = \\frac{1}{\\cos^2 \\theta} - \\tan^2 \\theta$$",
+        "Convert the tangent term to sine and cosine using the quotient identity:\n   $$\\text{LHS} = \\frac{1}{\\cos^2 \\theta} - \\frac{\\sin^2 \\theta}{\\cos^2 \\theta}$$",
+        "Since both terms share a common denominator of $\\cos^2 \\theta$, combine them into a single fraction:\n   $$\\text{LHS} = \\frac{1 - \\sin^2 \\theta}{\\cos^2 \\theta}$$",
+        "Use the Square Identity. Since $\\sin^2 \\theta + \\cos^2 \\theta = 1$, we know that $1 - \\sin^2 \\theta = \\cos^2 \\theta$. Substitute this into the numerator:\n   $$\\text{LHS} = \\frac{\\cos^2 \\theta}{\\cos^2 \\theta}$$",
+        "Simplify the division: any non-zero term divided by itself is equal to $1$:\n   $$\\text{LHS} = 1$$"
+      ],
+      "conclusion": "Since LHS = 1 and RHS = 1, LHS = RHS. The identity is proven."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "Thinking that $\\sin^2 \\theta + \\cos^2 \\theta = 1$ means we can also say $\\sin \\theta + \\cos \\theta = 1$.",
+      "correction": "You cannot simply take the square root of individual terms in an addition! For example, $\\sqrt{3^2 + 4^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$, which is NOT equal to $3 + 4 = 7$. The square identity only holds true when the sine and cosine terms are strictly squared: $\\sin^2 \\theta + \\cos^2 \\theta = 1$."
+    },
+    {
+      "misconception": "Writing $\\tan \\theta$ as $\\frac{\\cos \\theta}{\\sin \\theta}$.",
+      "correction": "This is a common inversion error. Tangent is opposite over adjacent ($y/x$), which corresponds directly to sine over cosine ($y/r \\div x/r$). The reciprocal ratio, $\\frac{\\cos \\theta}{\\sin \\theta}$, is actually a different function called cotangent (which you will learn about in university, but is not used in Grade 11). Always remember: $\\tan \\theta = \\frac{\\sin \\theta}{\\cos \\theta}$."
+    }
+  ],
+  "summary": "Trigonometric identities are mathematical equalities that are true for all defined angles. In Grade 11, the two major identities are the Quotient Identity ($\\tan \\theta = \\frac{\\sin \\theta}{\\cos \\theta}$) and the Square Identity ($\\sin^2 \\theta + \\cos^2 \\theta = 1$). Proving identities involves using algebraic techniques to show that the Left-Hand Side (LHS) simplifies to the exact same expression as the Right-Hand Side (RHS)."
+}

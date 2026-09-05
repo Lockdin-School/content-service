@@ -13,6 +13,7 @@ use crate::infrastructure::db::database::{init_postgres, run_migrations};
 use actix_web::web::Data;
 use sqlx::PgPool;
 use std::sync::Arc;
+use crate::core::quizzes::repositories::implementations::QuestionOptionRepoImpl::PostgresQuestionOptionRepo;
 
 #[derive(Clone)]
 pub struct AppState {
@@ -38,6 +39,7 @@ pub fn app_state(pg_pool: PgPool, event_bus: Data<EventBus>) -> AppState {
         quiz_service: Data::new(QuizService::new(
             Arc::new(PostgresQuizRepo::new(pg_pool.clone())),
             Arc::new(PostgresQuizQuestionRepo::new(pg_pool.clone())),
+            Arc::new(PostgresQuestionOptionRepo::new(pg_pool.clone())),
             event_bus.clone(),
         )),
     }

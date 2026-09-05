@@ -1,12 +1,20 @@
-use crate::core::quizzes::models::Quiz::{AggregateQuiz, NewQuiz};
+use crate::core::quizzes::dto::OptionDTO::OptionDTO;
+use crate::core::quizzes::dto::QuestionDTO::AggregateQuestion;
+use crate::core::quizzes::dto::QuizDTO::AggregateQuiz;
+use crate::core::quizzes::models::Quiz::NewQuiz;
+use crate::core::quizzes::models::QuizQuestion::{
+    NewQuizQuestion, NewQuizQuestionOption, QuizQuestion, QuizQuestionOption, QuizQuestionType,
+};
 use crate::core::quizzes::quizzes_events::QuizCreatedPayload;
-use crate::core::quizzes::repositories::interfaces::QuizQuestionRepository::QuizQuestionRepository;
-use crate::core::quizzes::repositories::interfaces::QuizRepository::QuizRepository;
+use crate::core::quizzes::repositories::interfaces::option::QuestionOptionRepository::QuestionOptionRepository;
+use crate::core::quizzes::repositories::interfaces::question::QuizQuestionRepository::QuizQuestionRepository;
+use crate::core::quizzes::repositories::interfaces::quiz::QuizRepository::QuizRepository;
 use crate::infrastructure::InternalEventBus::{Event, EventBus};
 use crate::utils::code::generate_code;
 use crate::utils::slug::generate_slug;
 use actix_web::web::Data;
 use log::error;
+use std::io::{Error, ErrorKind};
 use std::sync::Arc;
 use tokio::io;
 use uuid::Uuid;
@@ -14,6 +22,7 @@ use uuid::Uuid;
 pub struct QuizService {
     repo: Arc<dyn QuizRepository + Send + Sync>,
     questions_repo: Arc<dyn QuizQuestionRepository + Send + Sync>,
+    option_repo: Arc<dyn QuestionOptionRepository + Send + Sync>,
     event_bus: Data<EventBus>,
 }
 
@@ -21,11 +30,13 @@ impl QuizService {
     pub fn new(
         repo: Arc<dyn QuizRepository + Send + Sync>,
         questions_repo: Arc<dyn QuizQuestionRepository + Send + Sync>,
+        option_repo: Arc<dyn QuestionOptionRepository + Send + Sync>,
         event_bus: Data<EventBus>,
     ) -> Self {
         QuizService {
             repo,
             questions_repo,
+            option_repo,
             event_bus,
         }
     }
@@ -70,11 +81,18 @@ impl QuizService {
                     .questions_repo
                     .get_quiz_questions_by_quiz_id(id)
                     .await
-                    .unwrap_or_else(|e| {
-                        log::error!("quiz_questions.get | service | get_quiz_questions_by_id | failure | \"Failed to fetch quiz questions for quiz {}: {:?}\" |", id, e);
-                        Vec::new()
-                });
+                    .expect("Failed to fetch quiz questions");
 
+                let mut aggregate_questions: Vec<AggregateQuestion> = Vec::new();
+                for question in quiz_questions.into_iter() {
+                    let q = self
+                        .get_question_by_id(question.id)
+                        .await
+                        .expect("Failed to fetch question");
+                    aggregate_questions.push(q);
+                }
+
+                // Assembling the quiz
                 let quiz = AggregateQuiz {
                     id: quiz_db.id,
                     lesson_id: quiz_db.lesson_id,
@@ -83,7 +101,7 @@ impl QuizService {
                     difficulty: quiz_db.difficulty,
                     passing_score: quiz_db.passing_score,
                     estimated_duration_minutes: quiz_db.estimated_duration_minutes,
-                    questions: quiz_questions,
+                    questions: aggregate_questions,
                     created_at: quiz_db.created_at,
                     updated_at: quiz_db.updated_at,
                 };
@@ -96,6 +114,208 @@ impl QuizService {
                     error
                 );
                 Err(io::Error::other(error.to_string()))
+            }
+        }
+    }
+
+    // Questions
+    pub async fn create_question(&self, new_question: NewQuizQuestion) -> Result<Uuid, io::Error> {
+        log::info!(
+            "question.create | service | create_question | started | \"Creating question.\" | quiz_id={}",
+            new_question.quiz_id
+        );
+
+        match self.questions_repo.create_quiz_question(new_question).await {
+            Ok(id) => {
+                log::info!(
+                    "question.create | service | create_question | success | \"Created question successfully.\" | question_id={}",
+                    id
+                );
+
+                Ok(id)
+            }
+            Err(error) => {
+                log::error!(
+                    "question.create | service | create_question | failure | \"Failed creating question.\" | error=\"{}\"",
+                    error
+                );
+
+                Err(io::Error::other(error.to_string()))
+            }
+        }
+    }
+
+    pub async fn get_question_by_id(&self, id: Uuid) -> Result<AggregateQuestion, io::Error> {
+        log::info!(
+            "question.get | service | get_quiz_question_by_id | started | \"Getting question.\" | question_id={}",
+            id
+        );
+
+        match self.questions_repo.get_quiz_question_by_id(id).await {
+            Ok(question) => {
+                log::info!(
+                    "question.get | service | get_quiz_question_by_id | progressing | \"Returning the option\" | question_id={}",
+                    id
+                );
+
+                match question {
+                    Some(question) => {
+                        log::info!(
+                            "question.get | service | get_quiz_question_by_id | success | \"Successfully returned the quiz question\" | question_id={}",
+                            id
+                        );
+                        let options = self
+                            .option_repo
+                            .get_options_by_question_id(question.id)
+                            .await
+                            .expect("Failed to fetch options for question")
+                            .into_iter()
+                            .map(|o| OptionDTO::from(o))
+                            .collect();
+
+                        let question = AggregateQuestion {
+                            id,
+                            quiz_id: question.quiz_id,
+                            question_type: question.question_type,
+                            prompt: question.prompt,
+                            points: question.points,
+                            order: question.order,
+                            options,
+                        };
+
+                        Ok(question)
+                    }
+                    None => Err(io::Error::new(
+                        io::ErrorKind::NotFound,
+                        "Question not found.",
+                    )),
+                }
+            }
+            Err(sqlx::Error::RowNotFound) => {
+                log::info!(
+                    "question.get | service | get_quiz_question_by_id | failed | \"Question not found.\" | question_id={}",
+                    id
+                );
+
+                Err(io::Error::new(
+                    io::ErrorKind::NotFound,
+                    "Question not found.",
+                ))
+            }
+            Err(error) => {
+                log::error!(
+                    "question.get | service | get_quiz_question_by_id | failure | \"{:?}\" |",
+                    error
+                );
+
+                Err(io::Error::other(error.to_string()))
+            }
+        }
+    }
+
+    // Options
+
+    pub async fn create_option(&self, new_option: NewQuizQuestionOption) -> Result<Uuid, Error> {
+        log::info!(
+            "question_option.create.start | service | create_option | started | \"Creating question option.\" | question_id={}",
+            new_option.question_id
+        );
+
+        match self.option_repo.create_option(new_option).await {
+            Ok(id) => {
+                log::info!(
+                    "question_option.create.success | service | create_option | success | \"Created question option successfully.\" | option_id={}",
+                    id
+                );
+
+                Ok(id)
+            }
+            Err(error) => {
+                log::error!(
+                    "question_option.create.failed | service | create_option | failed | \"Failed creating question option.\" | error=\"{}\"",
+                    error
+                );
+
+                Err(Error::other(error.to_string()))
+            }
+        }
+    }
+
+    pub async fn get_options_by_question_id(
+        &self,
+        question_id: &Uuid,
+    ) -> Result<Vec<QuizQuestionOption>, Error> {
+        log::info!(
+            "question_options.get.start | service | get_options_by_question_id | started | \"Getting options for question.\" | question_id={}",
+            question_id
+        );
+
+        match self
+            .option_repo
+            .get_options_by_question_id(*question_id)
+            .await
+        {
+            Ok(options) => {
+                log::info!(
+                    "question_options.get.success | service | get_options_by_question_id | success | \"Returned options successfully.\" | question_id={} | count={}",
+                    question_id,
+                    options.len()
+                );
+
+                Ok(options)
+            }
+            Err(error) => {
+                log::error!(
+                    "question_options.get.failed | service | get_options_by_question_id | failed | \"Failed retrieving options.\" | question_id={} | error=\"{}\"",
+                    question_id,
+                    error
+                );
+
+                Err(Error::other(error.to_string()))
+            }
+        }
+    }
+
+    pub async fn get_option_by_id(&self, id: Uuid) -> Result<QuizQuestionOption, Error> {
+        log::info!(
+            "question_option.get.start | service | get_option_by_id | started | \"Getting question option.\" | option_id={}",
+            id
+        );
+
+        match self.option_repo.get_option_by_id(id).await {
+            Ok(option) => {
+                log::info!(
+                    "question_option.get.success | service | get_option_by_id | success | \"Returned question option successfully.\" | option_id={}",
+                    id
+                );
+
+                match option {
+                    Some(option) => Ok(option),
+                    None => Err(Error::new(
+                        ErrorKind::NotFound,
+                        "Question option not found.",
+                    )),
+                }
+            }
+            Err(sqlx::Error::RowNotFound) => {
+                log::info!(
+                    "question_option.get.failed | service | get_option_by_id | failed | \"Question option not found.\" | option_id={}",
+                    id
+                );
+
+                Err(Error::new(
+                    ErrorKind::NotFound,
+                    "Question option not found.",
+                ))
+            }
+            Err(error) => {
+                log::error!(
+                    "question_option.get.failed | service | get_option_by_id | failed | \"Failed retrieving question option.\" | option_id={} | error=\"{}\"",
+                    id,
+                    error
+                );
+
+                Err(Error::other(error.to_string()))
             }
         }
     }

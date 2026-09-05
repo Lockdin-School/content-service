@@ -1,0 +1,84 @@
+{
+  "topicId": "1c53a0c9-7e35-4113-8187-ebd49bbf6c3c",
+  "title": "Trigonometric Ratios on the Cartesian Plane",
+  "displayOrder": 1,
+  "definitions": [
+    {
+      "title": "Cartesian Definition of Trig Ratios",
+      "text": "For any point $P(x; y)$ on the Cartesian plane lying on a terminal arm of length $r$ (where $r = \\sqrt{x^2 + y^2} > 0$), making an angle $\\theta$ with the positive $x$-axis measured anti-clockwise, the trigonometric ratios are defined as:\n\n$$\\sin \\theta = \\frac{y}{r}, \\quad \\cos \\theta = \\frac{x}{r}, \\quad \\tan \\theta = \\frac{y}{x} \\quad (x \\neq 0)$$"
+    },
+    {
+      "title": "The CAST Diagram Rule",
+      "text": "The **CAST Diagram** is a quadrant-based rule that determines the algebraic sign (positive or negative) of trigonometric functions based on the quadrant in which the terminal arm of the angle $\\theta$ lies. It is an acronym for the quadrants where functions are positive:\n\n* **Quadrant I (All)**: All ratios ($\\sin$, $\\cos$, $\\tan$) are positive.\n* **Quadrant II (Sin)**: Only $\\sin$ is positive ($\\cos$ and $\\tan$ are negative).\n* **Quadrant III (Tan)**: Only $\\tan$ is positive ($\\sin$ and $\\cos$ are negative).\n* **Quadrant IV (Cos)**: Only $\\cos$ is positive ($\\sin$ and $\\tan$ are negative)."
+    }
+  ],
+  "explanation": [
+    {
+      "subtitle": "From Triangles to the Cartesian Plane",
+      "paragraphs": [
+        "In Grade 10, trigonometric ratios were restricted to right-angled triangles with acute angles ($0^\\circ < \\theta < 90^\\circ$). In Grade 11, we extend these definitions to any angle $\\theta$ by placing the angle on a Cartesian plane.",
+        "Imagine a terminal arm $OP$ rotating anti-clockwise from the positive $x$-axis. The point $P(x; y)$ is at the end of the arm, and $r$ is the straight-line distance from the origin $O(0; 0)$ to $P$. By the **Theorem of Pythagoras**, $r^2 = x^2 + y^2$. Because $r$ represents a physical distance, **$r$ is always positive** ($r > 0$).",
+        "As the arm rotates through the four quadrants, the coordinates $x$ and $y$ change sign, which determines whether the resulting trig ratio is positive or negative. For instance, in Quadrant II, the $x$-coordinate is negative ($x < 0$) and the $y$-coordinate is positive ($y > 0$). Because $r > 0$, the ratio $\\sin\\theta = \\frac{y}{r}$ is positive, while $\\cos\\theta = \\frac{x}{r}$ and $\\tan\\theta = \\frac{y}{x}$ are negative."
+      ]
+    },
+    {
+      "subtitle": "Special Angles in Trigonometry",
+      "paragraphs": [
+        "There are specific angles\u2014**$30^\\circ$, $45^\\circ$, and $60^\\circ$**\u2014whose exact trigonometric ratios can be derived geometrically without a calculator using two reference triangles:",
+        "1. **The $45^\\circ$-$45^\\circ$-90^\\circ$ Triangle**: An isosceles right triangle with equal sides of $1$ unit has a hypotenuse of $\\sqrt{2}$ units. This gives: \n   $$\\sin 45^\\circ = \\frac{1}{\\sqrt{2}}, \\quad \\cos 45^\\circ = \\frac{1}{\\sqrt{2}}, \\quad \\tan 45^\\circ = 1$$",
+        "2. **The $30^\\circ$-$60^\\circ$-90^\\circ$ Triangle**: Cutting an equilateral triangle with side lengths of $2$ units in half produces a right triangle with base $1$, height $\\sqrt{3}$, and hypotenuse $2$. This gives:\n   $$\\sin 30^\\circ = \\frac{1}{2}, \\quad \\cos 30^\\circ = \\frac{\\sqrt{3}}{2}, \\quad \\tan 30^\\circ = \\frac{1}{\\sqrt{3}}$$\n   $$\\sin 60^\\circ = \\frac{\\sqrt{3}}{2}, \\quad \\cos 60^\\circ = \\frac{1}{2}, \\quad \\tan 60^\\circ = \\sqrt{3}$$"
+      ]
+    }
+  ],
+  "analogy": [
+    {
+      "subtitle": "Think of the Cartesian plane as a revolving radar scanner",
+      "paragraphs": [
+        "Imagine a circular radar screen with a sweeping scanner arm centered at the origin $(0;0)$. The arm always has a positive length $r$ (representing its signal reach), but it tracks a target $P(x; y)$ that moves in a circle.",
+        "As the scanner sweeps, it reports the target's horizontal position $x$ and vertical height $y$ relative to the center of the radar grid:",
+        "* When the arm points in **Quadrant I** (top-right), the target is high ($y > 0$) and to the right ($x > 0$). Everything is positive and clear.",
+        "* When the arm sweeps into **Quadrant II** (top-left), the target is still high up ($y > 0$, so $\\sin\\theta$ remains positive), but it has crossed over to the left side ($x < 0$, making $\\cos\\theta$ and $\\tan\\theta$ negative).",
+        "* In **Quadrant III** (bottom-left), the target is below ground ($y < 0$) and to the left ($x < 0$). Since both are negative, their ratio $\\frac{y}{x}$ cancels out to a positive, meaning only $\\tan\\theta$ is positive.",
+        "* In **Quadrant IV** (bottom-right), the target is below ground ($y < 0$) but back to the right ($x > 0$), meaning only $\\cos\\theta$ remains positive."
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "title": "Finding Trigonometric Ratios without a Calculator",
+      "description": "If $P(-3; 4)$ is a point on the terminal arm of an angle $\\theta$, determine the exact value of $\\sin\\theta$, $\\cos\\theta$, and $\\tan\\theta$ without using a calculator.",
+      "expression": null,
+      "steps": [
+        "Identify the coordinates of the given point: $x = -3$ and $y = 4$. This point lies in Quadrant II, where we expect sine to be positive, and cosine/tangent to be negative.",
+        "Calculate the terminal length $r$ using the Theorem of Pythagoras:\n   $$r = \\sqrt{x^2 + y^2}$$\n   $$r = \\sqrt{(-3)^2 + (4)^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$$",
+        "Apply the Cartesian definitions of the trigonometric ratios:\n   $$\\sin\\theta = \\frac{y}{r} = \\frac{4}{5}$$\n   $$\\cos\\theta = \\frac{x}{r} = \\frac{-3}{5} = -\\frac{3}{5}$$\n   $$\\tan\\theta = \\frac{y}{x} = \\frac{4}{-3} = -\\frac{4}{3}$$"
+      ],
+      "conclusion": "Therefore, $\\sin\\theta = \\frac{4}{5}$, $\\cos\\theta = -\\frac{3}{5}$, and $\\tan\\theta = -\\frac{4}{3}$."
+    },
+    {
+      "title": "Solving Problems on the Cartesian Plane using Identities",
+      "description": "Given $12\\tan\\theta = 5$ and $\\theta > 90^\\circ$, draw a sketch and calculate the exact value of $\\sin\\theta$ and $\\cos(180^\\circ + \\theta)$ without using a calculator.",
+      "expression": null,
+      "steps": [
+        "Isolate the tangent ratio: $\\tan\\theta = \\frac{5}{12}$. Since the tangent ratio is positive, $\\theta$ must lie in Quadrant I or Quadrant III.",
+        "Analyze the constraint: We are given $\\theta > 90^\\circ$. Since $\\theta$ cannot be in Quadrant II (where tangent is negative) and must be greater than $90^\\circ$, it has to lie in **Quadrant III**.",
+        "Assign coordinates based on Quadrant III properties ($x < 0$ and $y < 0$):\n   $$\\tan\\theta = \\frac{y}{x} = \\frac{-5}{-12} \\implies y = -5 \\text{ and } x = -12$$",
+        "Calculate $r$:\n   $$r = \\sqrt{x^2 + y^2} = \\sqrt{(-12)^2 + (-5)^2} = \\sqrt{144 + 25} = \\sqrt{169} = 13$$",
+        "Calculate $\\sin\\theta$:\n   $$\\sin\\theta = \\frac{y}{r} = -\\frac{5}{13}$$",
+        "Find $\\cos(180^\\circ + \\theta)$. Using reduction formulae for Quadrant III, $\\cos(180^\\circ + \\theta) = -\\cos\\theta$:\n   $$-\\cos\\theta = -\\left(\\frac{x}{r}\\right) = -\\left(\\frac{-12}{13}\\right) = \\frac{12}{13}$$"
+      ],
+      "conclusion": "Thus, the exact value of $\\sin\\theta$ is $-\\frac{5}{13}$ and the value of $\\cos(180^\\circ + \\theta)$ is $\\frac{12}{13}$."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "The value of $r$ can be negative depending on which quadrant the coordinate point is in.",
+      "correction": "The value of $r$ represents the absolute distance or radius from the origin, which is geometrically calculated as the principal square root: $r = \\sqrt{x^2 + y^2}$. Distance is a scalar magnitude and is **always positive** ($r > 0$) regardless of the quadrant."
+    },
+    {
+      "misconception": "An expression like $\\tan 90^\\circ$ is equal to zero because it is on the $y$-axis.",
+      "correction": "At $90^\\circ$, any point on the terminal arm has coordinates $(0; y)$. Since the definition of tangent is $\\tan\\theta = \\frac{y}{x}$, calculating $\\tan 90^\\circ = \\frac{y}{0}$ results in division by zero, which is **undefined** (represented by an asymptote on the graph)."
+    }
+  ],
+  "summary": "To define trigonometric ratios for any angle size, we place the angle $\\theta$ on the Cartesian plane. Ratios are determined by the coordinates $(x; y)$ of a point on the terminal arm of length $r = \\sqrt{x^2+y^2}$ ($r>0$). The CAST diagram outlines the quadrant rules for signs: Quadrant I (All positive), Quadrant II (Sine positive), Quadrant III (Tangent positive), and Quadrant IV (Cosine positive)."
+}

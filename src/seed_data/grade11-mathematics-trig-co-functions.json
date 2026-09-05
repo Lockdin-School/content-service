@@ -1,0 +1,97 @@
+{
+  "topicId": "e6904777-02e5-4340-a354-be03087df960",
+  "title": "Co-Functions",
+  "displayOrder": 4,
+  "definitions": [
+    {
+      "title": "Formal CAPS Definition",
+      "text": "Two trigonometric functions are called **co-functions** if the value of one function for an angle $\\theta$ is equal to the value of the other function for its complementary angle $(90^\\circ - \\theta)$. In the Cartesian plane, reducing an angle across the vertical boundaries ($90^\\circ$ or $270^\\circ$) changes the ratio to its complementary partner:\n\n$$\\sin(90^\\circ - \\theta) = \\cos \\theta, \\quad \\cos(90^\\circ - \\theta) = \\sin \\theta$$\n$$\\sin(90^\\circ + \\theta) = \\cos \\theta, \\quad \\cos(90^\\circ + \\theta) = -\\sin \\theta$$"
+    },
+    {
+      "title": "In Simple Terms",
+      "text": "Sine and Cosine are complementary partners (co-functions). When you reduce an angle across the vertical $90^\\circ$ line, **the function swaps names** (Sine becomes Cosine, and Cosine becomes Sine). The positive or negative sign of your final answer depends purely on whether the original function was positive or negative in that starting quadrant."
+    }
+  ],
+  "explanation": [
+    {
+      "subtitle": "Why do the Ratios Swap names?",
+      "paragraphs": [
+        "In any right-angled triangle, the two acute angles always add up to $90^\\circ$, meaning they are complementary. If one angle is $\\theta$, the other must be $90^\\circ - \\theta$.",
+        "If you look at the triangle from the corner of $\\theta$, the opposite side is $y$ and the adjacent side is $x$. Thus, $\\sin \\theta = \\frac{y}{r}$.",
+        "However, if you stand at the other corner $(90^\\circ - \\theta)$, that same side $y$ is now the **adjacent** side to your position! Therefore, the cosine ratio from that corner is $\\cos(90^\\circ - \\theta) = \\frac{y}{r}$.",
+        "Since both expressions equal $\\frac{y}{r}$, we prove that $\\cos(90^\\circ - \\theta) = \\sin \\theta$. Standing at different corners swaps opposite and adjacent sides, forcing Sine and Cosine to swap roles."
+      ]
+    },
+    {
+      "subtitle": "Reducing into Quadrant II: $90^\\circ$ + $\\theta$",
+      "paragraphs": [
+        "When we reduce angles in the form $(90^\\circ + \\theta)$, we are operating in **Quadrant II**. We apply our standard two-step rule:",
+        "1. **Identify the swap:** Because the boundary is vertical ($90^\\circ$), the function name swaps (Sine becomes Cosine, Cosine becomes Sine).",
+        "2. **Identify the sign:** We check the sign of the *original* function in Quadrant II. According to the CAST diagram, **Sine is positive** in Quadrant II, so $\\sin(90^\\circ + \\theta)$ becomes **positive** $\\cos\\theta$.",
+        "Conversely, **Cosine is negative** in Quadrant II, so $\\cos(90^\\circ + \\theta)$ must become **negative** $-\\sin\\theta$."
+      ]
+    },
+    {
+      "subtitle": "Handling Shifted Negative Boundaries: $\\theta - 90^\\circ$",
+      "paragraphs": [
+        "Often in exam questions, you will see expressions written backwards, like $\\sin(\\theta$ - $90^\\circ)$. To resolve this, we factorise a negative sign out of the angle to return it to our standard vertical boundary form:",
+        "$$\\sin(\\theta - 90^\\circ) = \\sin[-(90^\\circ - \\theta)]$$",
+        "Since we know that $\\sin(-\\alpha) = -\\sin\\alpha$ (from negative angle rules), we can pull the negative sign to the front:",
+        "$$-\\sin(90^\\circ - \\theta) = -\\cos\\theta$$",
+        "This elegant technique lets you easily reduce any backwards compound angle using your standard co-function rules."
+      ]
+    }
+  ],
+  "analogy": [
+    {
+      "subtitle": "Think of it like the shifted rainy seasons of Cape Town and Johannesburg",
+      "paragraphs": [
+        "Imagine the climates of our two biggest cities: **Johannesburg** (Gauteng) and **Cape Town** (Western Cape). They both experience beautiful sunny periods and heavy rainy periods, but their cycles are **exactly out of phase by one season ($90^\\circ$)**!",
+        "* **Johannesburg** is a summer-rainfall region (modeled by a Sine wave: dry in winter, peaking in mid-summer).",
+        "* **Cape Town** is a winter-rainfall region (modeled by a Cosine wave: peaking in winter, dry in summer).",
+        "If you want to know what Cape Town's weather looks like, you can't look at Johannesburg's weather at the same time. But if you take Johannesburg's rain pattern and **shift it by exactly one season ($90^\\circ$)**, you get Cape Town's exact climate pattern! ",
+        "Because their cycles are identical but shifted by a quarter-turn, Joburg's rain is Cape Town's sun, and Cape Town's sun is Joburg's rain. They behave exactly like mathematical **co-functions**!"
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "title": "Writing Ratios in Terms of a Co-Function",
+      "description": "Express $\\cos 50^\\circ$ and $\\cos 130^\\circ$ in terms of $\\sin 40^\\circ$.",
+      "expression": null,
+      "steps": [
+        "For $\\cos 50^\\circ$, rewrite the angle using the complementary $90^\\circ$ boundary: $\\cos(90^\\circ - 40^\\circ)$. Applying the first-quadrant co-function identity gives: $\\cos(90^\\circ - 40^\\circ) = \\sin 40^\\circ$.",
+        "For $\\cos 130^\\circ$, rewrite the angle in terms of Quadrant II co-functions: $\\cos(90^\\circ + 40^\\circ)$.",
+        "Since Cosine is negative in Quadrant II, the result must be negative: $\\cos(90^\\circ + 40^\\circ) = -\\sin 40^\\circ$."
+      ],
+      "conclusion": "Therefore, $\\cos 50^\\circ = \\sin 40^\\circ$, and $\\cos 130^\\circ = -\\sin 40^\\circ$."
+    },
+    {
+      "title": "Simplifying Expressions using Co-Functions",
+      "description": "Simplify the following expression completely without using a calculator:\n$$\\frac{\\cos(90^\\circ + \\theta) \\cdot \\sin(\\theta + 360^\\circ)}{\\sin(90^\\circ - \\theta) \\cdot \\tan(180^\\circ + \\theta)}$$",
+      "expression": null,
+      "steps": [
+        "Reduce each term individually using your trigonometry rules:",
+        "Term 1: $\\cos(90^\\circ + \\theta)$ is in Quadrant II. It swaps to its co-function and is negative: $-\\sin\\theta$.",
+        "Term 2: $\\sin(\\theta + 360^\\circ)$ represents a full revolution, reducing simply to: $\\sin\\theta$.",
+        "Term 3: $\\sin(90^\\circ - \\theta)$ is in Quadrant I. It swaps to its co-function and is positive: $\\cos\\theta$.",
+        "Term 4: $\\tan(180^\\circ + \\theta)$ is in Quadrant III, where tangent is positive: $\\tan\\theta$.",
+        "Substitute these reduced terms back into the rational fraction:\n$$\\frac{(-\\sin\\theta) \\cdot (\\sin\\theta)}{\\cos\\theta \\cdot \\tan\\theta}$$",
+        "Convert the tangent ratio in the denominator to sine and cosine: $\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}$. This simplifies the denominator:\n$$\\cos\\theta \\cdot \\frac{\\sin\\theta}{\\cos\\theta} = \\sin\\theta$$",
+        "Now, divide the numerator by this simplified denominator:\n$$\\frac{-\\sin^2\\theta}{\\sin\\theta} = -\\sin\\theta$$"
+      ],
+      "conclusion": "Therefore, the entire expression simplifies beautifully to $-\\sin\\theta$."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "You must swap the trigonometric function's name for every reduction formula.",
+      "correction": "You **only** swap names when reducing across vertical boundaries ($90^\\circ \\pm \\theta$ or $270^\\circ \\pm \\theta$). When reducing across horizontal boundaries ($180^\\circ \\pm \\theta$ or $360^\\circ \\pm \\theta$), the function name **stays exactly the same** (Sine remains Sine, Cosine remains Cosine)."
+    },
+    {
+      "misconception": "The sign (positive or negative) of a co-function reduction depends on the new swapped function.",
+      "correction": "The sign is determined by the **original function** in its starting quadrant, *not* the function you swap to. For example, in $\\sin(90^\\circ + \\theta)$, the starting function is Sine. Because Sine is positive in Quadrant II, the final result is positive $\\cos\\theta$, even though Cosine itself is negative in Quadrant II."
+    }
+  ],
+  "summary": "Co-functions describe the complementary relationship between Sine and Cosine. Reducing a ratio across a vertical boundary ($90^\\circ \\pm \\theta$) always swaps its name (Sine $\\leftrightarrow$ Cosine). The algebraic sign of the final result is determined by the starting function's quadrant before the swap takes place."
+}

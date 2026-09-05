@@ -1,0 +1,85 @@
+{
+  "topicId": "e6904777-02e5-4340-a354-be03087df960",
+  "title": "Trigonometric Equations",
+  "displayOrder": 5,
+  "definitions": [
+    {
+      "title": "Formal CAPS Definition",
+      "text": "For any trigonometric ratio (such as $\\sin \\theta$, $\\cos \\theta$, or $\\tan \\theta$), a **trigonometric equation** is an equality that is satisfied only by specific values of the angle $\\theta$. Due to the periodic nature of trigonometric functions, a **general solution** is expressed as an algebraic formula that represents an infinite set of co-terminal angles satisfying the equation, written in terms of an integer parameter $k \\in \\mathbb{Z}$."
+    },
+    {
+      "title": "In Simple Terms",
+      "text": "A trigonometric equation is like a puzzle where we are given the output ratio and we have to find the starting angle. Because trig graphs repeat themselves forever, there are infinitely many correct angles that solve the equation. The **general solution** is the master formula that writes down all these angles in one line, while an **interval solution** is a list of only the specific angles that fit inside a restricted window (like $[0^\\circ; 360^\\circ]$)."
+    }
+  ],
+  "explanation": [
+    {
+      "subtitle": "Step 1: Finding the Reference Angle",
+      "paragraphs": [
+        "The very first step in solving any basic trigonometric equation of the form $\\sin \\theta = x$ is to calculate the **reference angle** (denoted as $\\text{ref } \\angle$).",
+        "To find the reference angle, we always use the **positive value** of the ratio, ignoring any negative sign. We type this into the calculator using the inverse trigonometric function:",
+        "$$\\text{ref } \\angle = \\sin^{-1}(|x|)$$",
+        "The reference angle is always an acute angle ($0^\\circ \\le \\text{ref } \\angle \\le 90^\\circ$) lying in the first quadrant, where all trigonometric functions are positive."
+      ]
+    },
+    {
+      "subtitle": "Step 2: Identifying the Quadrants and Periodicity",
+      "paragraphs": [
+        "Next, we look at the algebraic sign of the original ratio ($x$) and use our **CAST diagram** to identify the two quadrants where that ratio can exist.",
+        "Once the quadrants are selected, we apply the standard reduction formulae to find our two base solutions within a single revolution:",
+        "* **Quadrant I:** $\\theta = \\text{ref } \\angle$",
+        "* **Quadrant II:** $\\theta = 180^\\circ - \\text{ref } \\angle$",
+        "* **Quadrant III:** $\\theta = 180^\\circ + \\text{ref } \\angle$",
+        "* **Quadrant IV:** $\\theta = 360^\\circ - \\text{ref } \\angle$",
+        "To write the **general solution**, we add multiples of the function's period to each base angle. Since Sine and Cosine repeat every $360^\\circ$, we add $+ k \\cdot 360^\\circ$ ($k \\in \\mathbb{Z}$). Because Tangent repeats every $180^\\circ$, we only need one quadrant branch and add $+ k \\cdot 180^\\circ$ ($k \\in \\mathbb{Z}$)."
+      ]
+    }
+  ],
+  "analogy": [
+    {
+      "subtitle": "Think of it like the Golden Arrow Bus timetable on Golden Highway",
+      "paragraphs": [
+        "Imagine you are standing at a bus stop along the **Golden Highway** outside Soweto, waiting for the green-and-orange **Golden Arrow bus**.",
+        "This bus runs on a perfect, repeating circular route from the depot, past your stop, and back. It passes your stop exactly twice during each full daily cycle (representing our two base quadrants in $[0^\\circ; 360^\\circ]$): once heading North into Johannesburg at **08:00 AM**, and once returning South at **16:00 PM**.",
+        "1. **The General Solution is the Master Timetable:** Instead of writing out every single arrival time for the next 10 years, the bus company prints a simple rule: *'The bus arrives at 08:00 AM $+ k$ days, and at 16:00 PM $+ k$ days'* (where $k \\in \\mathbb{Z}$ represents the day number). This is exactly how the general solution $+ k \\cdot 360^\\circ$ works!",
+        "2. **The Specific Interval is your Daily Shift:** Now, say you are only working a shift from Monday morning to Tuesday evening (representing a restricted interval like $[-180^\\circ; 360^\\circ]$). You look at the master timetable and pull out only the specific arrival times that fall inside your shift hours. Any bus arriving before Monday or after Tuesday is ignored!"
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "title": "Finding a General Solution for Cosine",
+      "description": "Determine the general solution for the equation $\\cos 2\\theta = -0,5$.",
+      "expression": null,
+      "steps": [
+        "**Step 1: Find the reference angle.** We ignore the negative sign and calculate the inverse cosine of the positive ratio: $\\text{ref } \\angle = \\cos^{-1}(0,5) = 60^\\circ$.",
+        "**Step 2: Identify the quadrants.** The cosine ratio is negative. According to the CAST diagram, Cosine is negative in **Quadrant II** and **Quadrant III**.",
+        "**Step 3: Set up the equations with period variables.**\n\nIn Quadrant II:\n$$2\\theta = 180^\\circ - 60^\\circ + k \\cdot 360^\\circ$$\n$$2\\theta = 120^\\circ + k \\cdot 360^\\circ$$\n\nIn Quadrant III:\n$$2\\theta = 180^\\circ + 60^\\circ + k \\cdot 360^\\circ$$\n$$2\\theta = 240^\\circ + k \\cdot 360^\\circ$$",
+        "**Step 4: Solve for $\\theta$.** Divide the entire equation\u2014including the period term\u2014by the coefficient $2$:\n\nFor Quadrant II:\n$$\\theta = 60^\\circ + k \\cdot 180^\\circ$$\n\nFor Quadrant III:\n$$\\theta = 120^\\circ + k \\cdot 180^\\circ$$"
+      ],
+      "conclusion": "Therefore, the general solution is $\\theta = 60^\\circ + k \\cdot 180^\\circ$ or $\\theta = 120^\\circ + k \\cdot 180^\\circ$ where $k \\in \\mathbb{Z}$."
+    },
+    {
+      "title": "Solving within a Specific Interval",
+      "description": "Solve the equation $\\tan \\theta = -1$ for the interval $\\theta \\in [-180^\\circ; 180^\\circ]$.",
+      "expression": null,
+      "steps": [
+        "**Step 1: Find the reference angle.** Ignore the negative sign and take the inverse tangent: $\\text{ref } \\angle = \\tan^{-1}(1) = 45^\\circ$.",
+        "**Step 2: Write the general solution.** Since Tangent has a period of $180^\\circ$, we can write its general solution using a single branch. Tangent is negative in **Quadrant II**:\n$$\\theta = 180^\\circ - 45^\\circ + k \\cdot 180^\\circ$$\n$$\\theta = 135^\\circ + k \\cdot 180^\\circ \\quad (k \\in \\mathbb{Z})$$",
+        "**Step 3: Substitute integers for $k$ to find solutions inside $[-180^\\circ; 180^\\circ]$.**\n\n* Let $k = 0$: $\\theta = 135^\\circ$ (Valid, inside the interval)\n* Let $k = 1$: $\\theta = 135^\\circ + 180^\\circ = 315^\\circ$ (Invalid, outside the interval)\n* Let $k = -1$: $\\theta = 135^\\circ - 180^\\circ = -45^\\circ$ (Valid, inside the interval)\n* Let $k = -2$: $\\theta = 135^\\circ - 360^\\circ = -225^\\circ$ (Invalid, outside the interval)"
+      ],
+      "conclusion": "Therefore, the specific solutions within the interval are $\\theta = -45^\\circ$ or $\\theta = 135^\\circ$."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "When solving $\\sin \\theta = -0,5$, you should type $\\sin^{-1}(-0,5)$ into your calculator to get your reference angle.",
+      "correction": "Typing the negative sign directly into your calculator will give you $-30^\\circ$, which is not an acute, positive reference angle. This makes applying standard quadrant rules extremely confusing. Always drop the negative sign to find a positive acute reference angle of $30^\\circ$ first, and then let the CAST diagram handle the negative direction."
+    },
+    {
+      "misconception": "When dividing $2\\theta = 120^\\circ + k \\cdot 360^\\circ$ by 2 to solve for $\\theta$, you only divide the $120^\\circ$, leaving the period term as $+ k \\cdot 360^\\circ$.",
+      "correction": "Every single term on both sides of the equation must be divided by the coefficient. The period term must also be divided, changing $+ k \\cdot 360^\\circ$ to $+ k \\cdot 180^\\circ$. This represents the mathematical reality that a horizontal compression doubles the frequency of the solutions."
+    }
+  ],
+  "summary": "To solve a trigonometric equation, we find a positive acute reference angle using the positive ratio, identify our quadrants using the CAST diagram, and write the general solution by adding multiples of the function's period ($+ k \\cdot 360^\\circ$ for Sine and Cosine, and $+ k \\cdot 180^\\circ$ for Tangent). To solve within a specific interval, we substitute integer values for $k$ and pick only the angles that fit within the specified boundary."
+}

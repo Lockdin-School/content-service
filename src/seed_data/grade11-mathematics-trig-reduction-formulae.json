@@ -1,0 +1,85 @@
+{
+  "topicId": "e6904777-02e5-4340-a354-be03087df960",
+  "title": "Reduction Formulae",
+  "displayOrder": 3,
+  "definitions": [
+    {
+      "title": "Formal CAPS Definition",
+      "text": "For any angle $\\theta$ (usually assumed to be acute such that $0^\\circ < \\theta < 90^\\circ$), **reduction formulae** are algebraic identities that express trigonometric ratios of larger compound angles\u2014specifically $(180^\\circ \\pm \\theta)$, $(360^\\circ \\pm \\theta)$, and $(-\\theta)$\u2014as equivalent ratios of the single acute angle $\\theta$."
+    },
+    {
+      "title": "In Simple Terms",
+      "text": "**Reduction formulae** are shortcuts that let us shrink very large angles down into simple, easy-to-use acute angles. They help us find the exact values of large angles without ever needing a calculator."
+    }
+  ],
+  "explanation": [
+    {
+      "subtitle": "The Symmetries of the Cartesian Plane",
+      "paragraphs": [
+        "Every angle on the Cartesian plane is measured from the positive $x$-axis in an anti-clockwise direction. To simplify large angles, we map them back to the first quadrant by measuring how far they are from our primary horizontal boundary lines: the $180^\\circ$ line or the $360^\\circ$ line.",
+        "When we reduce an angle of the form $(180^\\circ \\pm \\theta)$ or $(360^\\circ \\pm \\theta)$, the trigonometric function itself **does not change** (sine stays sine, cosine stays cosine, and tangent stays tangent). We only need to determine whether the final ratio is positive or negative.",
+        "We determine the algebraic sign (+ or -) by identifying which quadrant the larger angle lands in, and applying our quadrant rules."
+      ]
+    },
+    {
+      "subtitle": "The Quadrant Reduction Rules",
+      "paragraphs": [
+        "We divide our horizontal reductions into three primary cases based on the quadrants:",
+        "1. **Quadrant II ($180^\\circ - \\theta$):** Land of Sine. Since sine is positive here, $\\sin(180^\\circ - \\theta) = \\sin \\theta$. The other ratios are negative: $\\cos(180^\\circ - \\theta) = -\\cos \\theta$ and $\\tan(180^\\circ - \\theta) = -\\tan \\theta$.",
+        "2. **Quadrant III ($180^\\circ + \\theta$):** Land of Tangent. Since tangent is positive here, $\\tan(180^\\circ + \\theta) = \\tan \\theta$. The other ratios are negative: $\\sin(180^\\circ + \\theta) = -\\sin \\theta$ and $\\cos(180^\\circ + \\theta) = -\\cos \\theta$.",
+        "3. **Quadrant IV ($360^\\circ - \\theta$ or $-\\theta$):** Land of Cosine. Since cosine is positive here, $\\cos(360^\\circ - \\theta) = \\cos \\theta$ and $\\cos(-\\theta) = \\cos \\theta$. The other ratios are negative: $\\sin(360^\\circ - \\theta) = -\\sin \\theta$ and $\\tan(360^\\circ - \\theta) = -\\tan \\theta$."
+      ]
+    }
+  ],
+  "analogy": [
+    {
+      "subtitle": "Think of it like a local South African taxi route",
+      "paragraphs": [
+        "Imagine you are traveling in a minibus taxi in a major South African city. No matter how far out into the suburbs the taxi drives, every route is planned and charged in relation to the main inner-city ranks.",
+        "Think of the **$180^\\circ$ line** as the legendary **Bree Street Taxi Rank** in Johannesburg, and the **$360^\\circ$ line** as the **Noord Street Taxi Rank**.",
+        "If your taxi drives out to a suburb in Quadrant II ($180^\\circ - \\theta$) or Quadrant III ($180^\\circ + \\theta$), it measures its distance $(\\theta)$ relative to Bree Street ($180^\\circ$). If it drives into Quadrant IV ($360^\\circ - \\theta$), it measures its distance relative to Noord Street ($360^\\circ$).",
+        "The passenger fare rates (the trigonometric function values) stay exactly the same as the local rank rate $(\\theta)$. The only thing that changes is the 'direction of payment' (positive or negative sign), which depends on which quadrant's territory you are driving through!"
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "title": "Reducing Angles to Acute Ratios",
+      "description": "Express $\\cos 210^\\circ$ and $\\sin 315^\\circ$ as trigonometric ratios of acute angles without using a calculator.",
+      "expression": null,
+      "steps": [
+        "First, analyze $\\cos 210^\\circ$. The angle $210^\\circ$ lies in **Quadrant III** (between $180^\\circ$ and $270^\\circ$).",
+        "Rewrite $210^\\circ$ using our $180^\\circ$ horizontal reference line: $210^\\circ = 180^\\circ + 30^\\circ$.",
+        "Since only tangent is positive in Quadrant III, cosine must be negative. Reduce: $\\cos(180^\\circ + 30^\\circ) = -\\cos 30^\\circ$.",
+        "Next, analyze $\\sin 315^\\circ$. The angle $315^\\circ$ lies in **Quadrant IV** (between $270^\\circ$ and $360^\\circ$).",
+        "Rewrite $315^\\circ$ using our $360^\\circ$ horizontal reference line: $315^\\circ = 360^\\circ - 45^\\circ$.",
+        "Since only cosine is positive in Quadrant IV, sine must be negative. Reduce: $\\sin(360^\\circ - 45^\\circ) = -\\sin 45^\\circ$."
+      ],
+      "conclusion": "Therefore, $\\cos 210^\\circ = -\\cos 30^\\circ$ and $\\sin 315^\\circ = -\\sin 45^\\circ$."
+    },
+    {
+      "title": "Simplifying a Compound Trigonometric Expression",
+      "description": "Simplify the following expression to a single trigonometric ratio: $\\frac{\\tan(180^\\circ - \\theta) \\cdot \\sin(360^\\circ + \\theta)}{\\cos(180^\\circ + \\theta) \\cdot \\tan(360^\\circ - \\theta)}$",
+      "expression": null,
+      "steps": [
+        "Reduce the individual terms in the numerator: $\\tan(180^\\circ - \\theta) = -\\tan \\theta$ (Quadrant II) and $\\sin(360^\\circ + \\theta) = \\sin \\theta$ (Quadrant I, full rotation).",
+        "Reduce the individual terms in the denominator: $\\cos(180^\\circ + \\theta) = -\\cos \\theta$ (Quadrant III) and $\\tan(360^\\circ - \\theta) = -\\tan \\theta$ (Quadrant IV).",
+        "Substitute these reduced terms back into the fraction: $\\frac{(-\\tan \\theta) \\cdot \\sin \\theta}{(-\\cos \\theta) \\cdot (-\\tan \\theta)}$.",
+        "Cancel the common factor $(-\\tan \\theta)$ from the numerator and denominator: $\\frac{\\sin \\theta}{-\\cos \\theta}$.",
+        "Apply the quotient identity $\\tan \\theta = \\frac{\\sin \\theta}{\\cos \\theta}$ to write the final simplified fraction as $-\\tan \\theta$."
+      ],
+      "conclusion": "Therefore, the expression simplifies completely to $-\\tan \\theta$."
+    }
+  ],
+  "misconceptions": [
+    {
+      "misconception": "The trigonometric function name changes when reducing around the horizontal lines (for example, $\\sin(180^\\circ - \\theta)$ becomes $\\cos \\theta$).",
+      "correction": "When reducing around horizontal lines ($180^\\circ \\pm \\theta$ and $360^\\circ \\pm \\theta$), the function **never** changes its name. Sine remains sine, cosine remains cosine, and tangent remains tangent. Function names only change to their co-functions (sine $\\leftrightarrow$ cosine) when reducing around vertical lines like $90^\\circ \\pm \\theta$."
+    },
+    {
+      "misconception": "The negative sign inside brackets like $\\cos(-\\theta)$ always makes the final answer negative.",
+      "correction": "The angle $-\\theta$ represents a clockwise rotation into Quadrant IV. Because cosine is positive in Quadrant IV, $\\cos(-\\theta)$ is positive: $\\cos(-\\theta) = \\cos \\theta$. Conversely, sine and tangent are negative in Quadrant IV, so $\\sin(-\\theta) = -\\sin \\theta$ and $\\tan(-\\theta) = -\\tan \\theta$."
+    }
+  ],
+  "summary": "Reduction formulae allow us to simplify trigonometric functions of any angle size by expressing them in terms of an equivalent acute angle $\\theta$. When reducing across horizontal boundary lines ($180^\\circ$ and $360^\\circ$), the function name remains unchanged, and the algebraic sign is determined by the CAST diagram quadrant rules."
+}

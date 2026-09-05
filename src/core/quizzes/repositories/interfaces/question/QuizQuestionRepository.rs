@@ -11,4 +11,5 @@ pub trait QuizQuestionRepository {
         &self,
         id: Uuid,
     ) -> sqlx::Result<Vec<QuizQuestion>, sqlx::Error>;
+    async fn get_quiz_question_by_id(&self, id: Uuid) -> sqlx::Result<Option<QuizQuestion>, sqlx::Error>;
 }

@@ -1,7 +1,7 @@
 use crate::core::quizzes::models::QuizQuestion::{NewQuizQuestion, QuizQuestion};
-use crate::core::quizzes::repositories::interfaces::QuizQuestionRepository::QuizQuestionRepository;
 use sqlx::{Error, PgPool};
 use uuid::Uuid;
+use crate::core::quizzes::repositories::interfaces::question::QuizQuestionRepository::QuizQuestionRepository;
 
 pub struct PostgresQuizQuestionRepo {
     pool: PgPool,
@@ -12,8 +12,8 @@ impl QuizQuestionRepository for PostgresQuizQuestionRepo {
     async fn create_quiz_question(&self, question: NewQuizQuestion) -> sqlx::Result<Uuid, Error> {
         let new_id = Uuid::now_v7();
         let (id,): (Uuid,) = sqlx::query_as(
-            "INSERT INTO quiz_questions(id, quiz_id, question_type, prompt, points, \"order\", options) \
-         VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
+            "INSERT INTO quiz_questions(id, quiz_id, question_type, prompt, points, \"order\") \
+         VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
         )
             .bind(new_id)
             .bind(question.quiz_id)
@@ -21,7 +21,6 @@ impl QuizQuestionRepository for PostgresQuizQuestionRepo {
             .bind(question.prompt)
             .bind(question.points)
             .bind(question.order)
-            .bind(question.options)
             .fetch_one(&self.pool)
             .await?;
 
@@ -39,6 +38,15 @@ impl QuizQuestionRepository for PostgresQuizQuestionRepo {
                 .await?;
 
         Ok(questions)
+    }
+
+    async fn get_quiz_question_by_id(&self, id: Uuid) -> sqlx::Result<Option<QuizQuestion>, Error> {
+        let question = sqlx::query_as("SELECT * FROM quiz_questions WHERE id = $1")
+            .bind(id)
+            .fetch_optional(&self.pool)
+            .await?;
+        
+        Ok(question)
     }
 }
 
