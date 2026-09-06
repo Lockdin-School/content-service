@@ -87,8 +87,6 @@ pub struct QuizQuestionOption {
     pub order: i32,
 }
 
-
-
 /// Defines the supported formats for quiz questions.
 #[derive(Debug, Clone, Serialize, Deserialize, Copy, PartialEq, Eq, Type)]
 #[serde(rename_all = "camelCase")]

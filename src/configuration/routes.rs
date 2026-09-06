@@ -4,7 +4,10 @@ use crate::core::concepts::handlers::{
 };
 use crate::core::lessons::handlers::{create_lesson, get_lesson_by_id};
 use crate::core::materials::handlers::{get_all_materials, get_material_by_id};
-use crate::core::quizzes::handlers::{create_option, create_question, create_quiz, get_option_by_id, get_options_by_question_id, get_quiz_by_id};
+use crate::core::quizzes::handlers::{
+    create_option, create_question, create_quiz, get_option_by_id, get_options_by_question_id,
+    get_quiz_by_id,
+};
 use actix_web::web;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
@@ -39,12 +42,12 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
             .service(
                 web::scope("/questions")
                     .service(get_options_by_question_id)
-                    .service(create_question)
+                    .service(create_question),
             )
             .service(
                 web::scope("/options")
                     .service(create_option)
-                    .service(get_option_by_id)
-            )
+                    .service(get_option_by_id),
+            ),
     );
 }

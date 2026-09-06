@@ -1,0 +1,203 @@
+{
+  "quiz": {
+    "lessonId": "c0c4a4fb-b5c0-417c-adb8-a207762a423f",
+    "topicId": "0b602251-a4fb-4ba1-a293-6d498b7046b1",
+    "title": "Grade 11 Trigonometry: Ratios on the Cartesian Plane",
+    "description": "Test your understanding of coordinates, the terminal radius $r$, and the CAST diagram using localized South African contexts.",
+    "difficulty": "Medium",
+    "passingScore": 6,
+    "estimatedDurationMinutes": 15
+  },
+  "questions": [
+    {
+      "quizId": "ab45a8e3-a3c6-42ef-a15b-731fdbb47db2",
+      "questionType": "multiplechoice",
+      "prompt": "A surveyor is measuring the elevation angle of **Table Mountain** in Cape Town from a base station. On their Cartesian mapping software, the line of sight to the mountaintop passes through the point $P(-5; 12)$ in Quadrant II. What is the value of the terminal radius $r$ and the ratio for $\\cos \\theta$?",
+      "points": 2,
+      "order": 0,
+      "options": [
+        {
+          "id": "213cd247-fdf9-468c-9720-20053fede760",
+          "questionId": "aa948617-41c0-4f66-9cf1-1d87ec675668",
+          "text": "$r = 13$ and $\\cos \\theta = \\frac{12}{13}$",
+          "isCorrect": false,
+          "order": 0
+        },
+        {
+          "id": "8da4406e-5c6d-45ff-a807-cfce62c6cccb",
+          "questionId": "aa948617-41c0-4f66-9cf1-1d87ec675668",
+          "text": "$r = -13$ and $\\cos \\theta = -\\frac{5}{13}$",
+          "isCorrect": false,
+          "order": 1
+        },
+        {
+          "id": "2803f5db-9012-4133-82cb-3e3f4334e21a",
+          "questionId": "aa948617-41c0-4f66-9cf1-1d87ec675668",
+          "text": "$r = 13$ and $\\cos \\theta = -\\frac{5}{13}$",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "id": "1b5dd88f-1e00-435d-ba11-770c066304a3",
+          "questionId": "aa948617-41c0-4f66-9cf1-1d87ec675668",
+          "text": "$r = 17$ and $\\cos \\theta = -\\frac{5}{17}$",
+          "isCorrect": false,
+          "order": 3
+        }
+      ],
+      "id": "aa948617-41c0-4f66-9cf1-1d87ec675668"
+    },
+    {
+      "quizId": "ab45a8e3-a3c6-42ef-a15b-731fdbb47db2",
+      "questionType": "multiplechoice",
+      "prompt": "During a night match at **FNB Stadium (Soccer City)**, a massive robotic spotlight rotates anti-clockwise, starting from the East touchline (positive $x$-axis) into Quadrant III (where $180^\\circ < \\theta < 270^\\circ$). Which of the primary trigonometric ratios will be positive for any angle in this quadrant?",
+      "points": 2,
+      "order": 1,
+      "options": [
+        {
+          "id": "67e2bc27-26ff-48b2-8209-35acef5d5476",
+          "questionId": "c67db29d-e5c6-4c17-b2cd-e454bd96cf00",
+          "text": "Sine ($\\sin \\theta$) only, because the South Stand is active.",
+          "isCorrect": false,
+          "order": 0
+        },
+        {
+          "id": "1b51f8a6-ab27-4c0a-b746-69a8e9411cd7",
+          "questionId": "c67db29d-e5c6-4c17-b2cd-e454bd96cf00",
+          "text": "Cosine ($\\cos \\theta$) only, because the commentary box is active.",
+          "isCorrect": false,
+          "order": 1
+        },
+        {
+          "id": "4481810f-6260-47ea-b974-bba322df73cb",
+          "questionId": "c67db29d-e5c6-4c17-b2cd-e454bd96cf00",
+          "text": "Tangent ($\\tan \\theta$) only, because both $x$ and $y$ are negative, and $\\frac{-y}{-x}$ simplifies to a positive ratio.",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "id": "805b6b09-b312-4cc2-931b-ead0f614e4ac",
+          "questionId": "c67db29d-e5c6-4c17-b2cd-e454bd96cf00",
+          "text": "All ratios are positive in this quadrant.",
+          "isCorrect": false,
+          "order": 3
+        }
+      ],
+      "id": "c67db29d-e5c6-4c17-b2cd-e454bd96cf00"
+    },
+    {
+      "quizId": "ab45a8e3-a3c6-42ef-a15b-731fdbb47db2",
+      "questionType": "multiplechoice",
+      "prompt": "A container ship navigating off the coast of **Durban** has its radar locked onto a lighthouse. The navigation console shows that $15\\sin\\theta = -9$ and $\\theta \\in [90^\\circ; 270^\\circ]$. What is the exact value of $\\tan \\theta$ without using a calculator?",
+      "points": 2,
+      "order": 2,
+      "options": [
+        {
+          "id": "28c6ecc8-b23e-4ebe-b009-4217bcf64084",
+          "questionId": "6a5fff5c-131d-4da3-93aa-5b6528b91576",
+          "text": "$\\tan \\theta = -\\frac{3}{4}$",
+          "isCorrect": false,
+          "order": 0
+        },
+        {
+          "id": "80a41d18-afcf-47bd-b21a-2011aa1e405e",
+          "questionId": "6a5fff5c-131d-4da3-93aa-5b6528b91576",
+          "text": "$\\tan \\theta = \\frac{3}{4}$",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "id": "34481ad6-33ae-48c3-b8e3-dc0f03052c96",
+          "questionId": "6a5fff5c-131d-4da3-93aa-5b6528b91576",
+          "text": "$\\tan \\theta = \\frac{4}{3}$",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "id": "0b1ed7e1-8cab-41aa-ab83-e4626dd1cd21",
+          "questionId": "6a5fff5c-131d-4da3-93aa-5b6528b91576",
+          "text": "$\\tan \\theta = -\\frac{4}{3}$",
+          "isCorrect": false,
+          "order": 3
+        }
+      ],
+      "id": "6a5fff5c-131d-4da3-93aa-5b6528b91576"
+    },
+    {
+      "quizId": "ab45a8e3-a3c6-42ef-a15b-731fdbb47db2",
+      "questionType": "multiplechoice",
+      "prompt": "Sipho is solving a homework problem about a wind turbine blade in the **Karoo**. The tip of the blade is positioned at the coordinate $P(-24; -7)$ in Quadrant III. Sipho argues that because $x$ and $y$ are negative, the terminal radius must be $r = -25$. Why is Sipho's argument incorrect?",
+      "points": 2,
+      "order": 3,
+      "options": [
+        {
+          "id": "1f74365a-a3f9-4420-98ff-25335e665abc",
+          "questionId": "f6296013-cfd9-4e2b-97f1-a27730a3d4fd",
+          "text": "The radius is positive because squaring negative coordinates under the radical always yields a positive sum: $r = \\sqrt{(-24)^2 + (-7)^2} = \\sqrt{576 + 49} = 25$. As a distance, $r$ is a scalar and is always positive.",
+          "isCorrect": true,
+          "order": 0
+        },
+        {
+          "id": "d493a057-5278-42aa-b49f-5fc4e8deccab",
+          "questionId": "f6296013-cfd9-4e2b-97f1-a27730a3d4fd",
+          "text": "Sipho is correct because any value in Quadrant III must be negative.",
+          "isCorrect": false,
+          "order": 1
+        },
+        {
+          "id": "f89ccb68-bd51-4ab5-8923-46429704558a",
+          "questionId": "f6296013-cfd9-4e2b-97f1-a27730a3d4fd",
+          "text": "The radius should be $r = \\sqrt{-24^2 - 7^2}$, which makes it an imaginary number.",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "id": "760493ac-a20a-4220-931b-35bbc1ba2846",
+          "questionId": "f6296013-cfd9-4e2b-97f1-a27730a3d4fd",
+          "text": "The radius is positive because $\\tan \\theta$ is positive in Quadrant III, which forces $r$ to be positive.",
+          "isCorrect": false,
+          "order": 3
+        }
+      ],
+      "id": "f6296013-cfd9-4e2b-97f1-a27730a3d4fd"
+    },
+    {
+      "quizId": "ab45a8e3-a3c6-42ef-a15b-731fdbb47db2",
+      "questionType": "multiplechoice",
+      "prompt": "A surveyor maps a circular water reservoir of radius $OP = 2$ units in a rural community in **Limpopo**. The terminal arm $OP$ makes an angle of $\\theta = 300^\\circ$ with the positive $x$-axis. What are the exact coordinates $(a; b)$ of the point $P$ without using a calculator?",
+      "points": 2,
+      "order": 4,
+      "options": [
+        {
+          "id": "137a218e-84b9-4a1d-a814-8b81134fd198",
+          "questionId": "6b4d5806-1b45-470a-96b2-9827459490f6",
+          "text": "$P(1; -\\sqrt{3})$",
+          "isCorrect": true,
+          "order": 0
+        },
+        {
+          "id": "33e1dabc-7f35-44b5-9c0e-876dc251fd3c",
+          "questionId": "6b4d5806-1b45-470a-96b2-9827459490f6",
+          "text": "$P(\\sqrt{3}; -1)$",
+          "isCorrect": false,
+          "order": 1
+        },
+        {
+          "id": "7717528f-7f03-4c35-a1b6-8396597c495b",
+          "questionId": "6b4d5806-1b45-470a-96b2-9827459490f6",
+          "text": "$P(-1; \\sqrt{3})$",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "id": "29ac4854-2c92-42b3-9b9e-8357a6002f17",
+          "questionId": "6b4d5806-1b45-470a-96b2-9827459490f6",
+          "text": "$P(-\\sqrt{3}; 1)$",
+          "isCorrect": false,
+          "order": 3
+        }
+      ],
+      "id": "6b4d5806-1b45-470a-96b2-9827459490f6"
+    }
+  ]
+}

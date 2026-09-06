@@ -1,6 +1,6 @@
+use crate::core::quizzes::models::QuizQuestion::QuizQuestionOption;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use crate::core::quizzes::models::QuizQuestion::QuizQuestionOption;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]

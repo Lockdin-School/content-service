@@ -1,7 +1,7 @@
 use crate::core::quizzes::models::QuizQuestion::{NewQuizQuestion, QuizQuestion};
+use crate::core::quizzes::repositories::interfaces::question::QuizQuestionRepository::QuizQuestionRepository;
 use sqlx::{Error, PgPool};
 use uuid::Uuid;
-use crate::core::quizzes::repositories::interfaces::question::QuizQuestionRepository::QuizQuestionRepository;
 
 pub struct PostgresQuizQuestionRepo {
     pool: PgPool,
@@ -15,14 +15,14 @@ impl QuizQuestionRepository for PostgresQuizQuestionRepo {
             "INSERT INTO quiz_questions(id, quiz_id, question_type, prompt, points, \"order\") \
          VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
         )
-            .bind(new_id)
-            .bind(question.quiz_id)
-            .bind(question.question_type)
-            .bind(question.prompt)
-            .bind(question.points)
-            .bind(question.order)
-            .fetch_one(&self.pool)
-            .await?;
+        .bind(new_id)
+        .bind(question.quiz_id)
+        .bind(question.question_type)
+        .bind(question.prompt)
+        .bind(question.points)
+        .bind(question.order)
+        .fetch_one(&self.pool)
+        .await?;
 
         Ok(id)
     }
@@ -45,7 +45,7 @@ impl QuizQuestionRepository for PostgresQuizQuestionRepo {
             .bind(id)
             .fetch_optional(&self.pool)
             .await?;
-        
+
         Ok(question)
     }
 }

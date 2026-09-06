@@ -1,7 +1,7 @@
 use crate::core::quizzes::models::Quiz::{NewQuiz, Quiz};
+use crate::core::quizzes::repositories::interfaces::quiz::QuizRepository::QuizRepository;
 use sqlx::{Error, PgPool};
 use uuid::Uuid;
-use crate::core::quizzes::repositories::interfaces::quiz::QuizRepository::QuizRepository;
 
 pub struct PostgresQuizRepo {
     pool: PgPool,

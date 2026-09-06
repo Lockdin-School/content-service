@@ -110,11 +110,7 @@ pub async fn create_option(
         "question_option.create.request | handler | create_option | started | \"Creating question option.\" |"
     );
 
-    match state
-        .quiz_service
-        .create_option(payload.into_inner())
-        .await
-    {
+    match state.quiz_service.create_option(payload.into_inner()).await {
         Ok(id) => {
             log::info!(
                 "question_option.create.success | handler | create_option | success | \"Question option created successfully.\" |"
@@ -176,11 +172,7 @@ pub async fn get_option_by_id(
         "question_option.get.request | handler | get_option_by_id | started | \"Getting question option by id.\" |"
     );
 
-    match state
-        .quiz_service
-        .get_option_by_id(id.into_inner())
-        .await
-    {
+    match state.quiz_service.get_option_by_id(id.into_inner()).await {
         Ok(option) => {
             log::info!(
                 "question_option.get.success | handler | get_option_by_id | success | \"Question option found.\" |"

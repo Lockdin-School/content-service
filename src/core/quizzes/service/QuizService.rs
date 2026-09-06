@@ -3,7 +3,7 @@ use crate::core::quizzes::dto::QuestionDTO::AggregateQuestion;
 use crate::core::quizzes::dto::QuizDTO::AggregateQuiz;
 use crate::core::quizzes::models::Quiz::NewQuiz;
 use crate::core::quizzes::models::QuizQuestion::{
-    NewQuizQuestion, NewQuizQuestionOption, QuizQuestion, QuizQuestionOption, QuizQuestionType,
+    NewQuizQuestion, NewQuizQuestionOption, QuizQuestionOption,
 };
 use crate::core::quizzes::quizzes_events::QuizCreatedPayload;
 use crate::core::quizzes::repositories::interfaces::option::QuestionOptionRepository::QuestionOptionRepository;
@@ -170,7 +170,7 @@ impl QuizService {
                             .await
                             .expect("Failed to fetch options for question")
                             .into_iter()
-                            .map(|o| OptionDTO::from(o))
+                            .map(OptionDTO::from)
                             .collect();
 
                         let question = AggregateQuestion {

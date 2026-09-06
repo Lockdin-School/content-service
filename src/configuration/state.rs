@@ -5,6 +5,7 @@ use crate::core::lessons::repository::LessonRepositoryImpl::PostgresLessonReposi
 use crate::core::lessons::service::LessonService::LessonService;
 use crate::core::materials::repository::MaterialRepositoryImpl::PostgresMaterialRepository;
 use crate::core::materials::service::MaterialService::MaterialService;
+use crate::core::quizzes::repositories::implementations::QuestionOptionRepoImpl::PostgresQuestionOptionRepo;
 use crate::core::quizzes::repositories::implementations::QuizQuestionRepoImpl::PostgresQuizQuestionRepo;
 use crate::core::quizzes::repositories::implementations::QuizRepoImpl::PostgresQuizRepo;
 use crate::core::quizzes::service::QuizService::QuizService;
@@ -13,7 +14,6 @@ use crate::infrastructure::db::database::{init_postgres, run_migrations};
 use actix_web::web::Data;
 use sqlx::PgPool;
 use std::sync::Arc;
-use crate::core::quizzes::repositories::implementations::QuestionOptionRepoImpl::PostgresQuestionOptionRepo;
 
 #[derive(Clone)]
 pub struct AppState {
