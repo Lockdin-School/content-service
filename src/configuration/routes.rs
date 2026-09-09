@@ -5,8 +5,10 @@ use crate::core::concepts::handlers::{
 use crate::core::lessons::handlers::{create_lesson, get_lesson_by_id};
 use crate::core::materials::handlers::{get_all_materials, get_material_by_id};
 use crate::core::quizzes::handlers::{
-    create_option, create_question, create_quiz, get_option_by_id, get_options_by_question_id,
-    get_quiz_by_id,
+    create_option, create_question, create_quiz, create_quiz_attempt, get_option_by_id,
+    get_options_by_question_id, get_quiz_attempt_by_student_id, get_quiz_by_id,
+    save_quiz_question_response, update_quiz_attempt, update_quiz_question_response,
+    upload_quiz_bulk,
 };
 use actix_web::web;
 
@@ -37,7 +39,8 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
             .service(
                 web::scope("/quizzes")
                     .service(get_quiz_by_id)
-                    .service(create_quiz),
+                    .service(create_quiz)
+                    .service(upload_quiz_bulk),
             )
             .service(
                 web::scope("/questions")
@@ -48,6 +51,17 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
                 web::scope("/options")
                     .service(create_option)
                     .service(get_option_by_id),
+            )
+            .service(
+                web::scope("/quiz-attempts")
+                    .service(create_quiz_attempt)
+                    .service(get_quiz_attempt_by_student_id)
+                    .service(update_quiz_attempt),
+            )
+            .service(
+                web::scope("/question-responses")
+                    .service(save_quiz_question_response)
+                    .service(update_quiz_question_response),
             ),
     );
 }

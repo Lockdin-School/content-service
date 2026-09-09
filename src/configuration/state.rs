@@ -6,7 +6,9 @@ use crate::core::lessons::service::LessonService::LessonService;
 use crate::core::materials::repository::MaterialRepositoryImpl::PostgresMaterialRepository;
 use crate::core::materials::service::MaterialService::MaterialService;
 use crate::core::quizzes::repositories::implementations::QuestionOptionRepoImpl::PostgresQuestionOptionRepo;
+use crate::core::quizzes::repositories::implementations::QuizAttemptRepoImpl::PostgresQuizAttemptRepo;
 use crate::core::quizzes::repositories::implementations::QuizQuestionRepoImpl::PostgresQuizQuestionRepo;
+use crate::core::quizzes::repositories::implementations::QuizQuestionResponseRepoImpl::PostgresQuizQuestionResponseRepo;
 use crate::core::quizzes::repositories::implementations::QuizRepoImpl::PostgresQuizRepo;
 use crate::core::quizzes::service::QuizService::QuizService;
 use crate::infrastructure::InternalEventBus::{EventBus, init_event_bus};
@@ -40,6 +42,8 @@ pub fn app_state(pg_pool: PgPool, event_bus: Data<EventBus>) -> AppState {
             Arc::new(PostgresQuizRepo::new(pg_pool.clone())),
             Arc::new(PostgresQuizQuestionRepo::new(pg_pool.clone())),
             Arc::new(PostgresQuestionOptionRepo::new(pg_pool.clone())),
+            Arc::new(PostgresQuizAttemptRepo::new(pg_pool.clone())),
+            Arc::new(PostgresQuizQuestionResponseRepo::new(pg_pool.clone())),
             event_bus.clone(),
         )),
     }

@@ -1,14 +1,22 @@
+use crate::core::quizzes::dto::AggregateQuizAttempt::AggregateQuizAttempt;
 use crate::core::quizzes::dto::OptionDTO::OptionDTO;
 use crate::core::quizzes::dto::QuestionDTO::AggregateQuestion;
 use crate::core::quizzes::dto::QuizDTO::AggregateQuiz;
+use crate::core::quizzes::dto::bulk_dto::BulkQuizUpload;
 use crate::core::quizzes::models::Quiz::NewQuiz;
+use crate::core::quizzes::models::QuizAttempt::{QuizAttemptNew, QuizAttemptStatus};
 use crate::core::quizzes::models::QuizQuestion::{
     NewQuizQuestion, NewQuizQuestionOption, QuizQuestionOption,
 };
+use crate::core::quizzes::models::QuizQuestionResponse::{
+    EvaluatedQuizQuestionResponseNew, QuizQuestionResponseNew,
+};
 use crate::core::quizzes::quizzes_events::QuizCreatedPayload;
+use crate::core::quizzes::repositories::interfaces::attempt::QuizAttemptRepository::QuizAttemptRepository;
 use crate::core::quizzes::repositories::interfaces::option::QuestionOptionRepository::QuestionOptionRepository;
 use crate::core::quizzes::repositories::interfaces::question::QuizQuestionRepository::QuizQuestionRepository;
 use crate::core::quizzes::repositories::interfaces::quiz::QuizRepository::QuizRepository;
+use crate::core::quizzes::repositories::interfaces::response::QuizQuestionResponseRepository::QuizQuestionResponseRepository;
 use crate::infrastructure::InternalEventBus::{Event, EventBus};
 use crate::utils::code::generate_code;
 use crate::utils::slug::generate_slug;
@@ -23,6 +31,8 @@ pub struct QuizService {
     repo: Arc<dyn QuizRepository + Send + Sync>,
     questions_repo: Arc<dyn QuizQuestionRepository + Send + Sync>,
     option_repo: Arc<dyn QuestionOptionRepository + Send + Sync>,
+    attempt_repo: Arc<dyn QuizAttemptRepository + Send + Sync>,
+    response_repo: Arc<dyn QuizQuestionResponseRepository + Send + Sync>,
     event_bus: Data<EventBus>,
 }
 
@@ -31,12 +41,16 @@ impl QuizService {
         repo: Arc<dyn QuizRepository + Send + Sync>,
         questions_repo: Arc<dyn QuizQuestionRepository + Send + Sync>,
         option_repo: Arc<dyn QuestionOptionRepository + Send + Sync>,
+        attempt_repo: Arc<dyn QuizAttemptRepository + Send + Sync>,
+        response_repo: Arc<dyn QuizQuestionResponseRepository + Send + Sync>,
         event_bus: Data<EventBus>,
     ) -> Self {
         QuizService {
             repo,
             questions_repo,
             option_repo,
+            attempt_repo,
+            response_repo,
             event_bus,
         }
     }
@@ -72,6 +86,74 @@ impl QuizService {
                 Err(io::Error::other(e))
             }
         }
+    }
+
+    pub async fn upload_quiz_bulk(
+        &self,
+        payload: BulkQuizUpload,
+    ) -> Result<AggregateQuiz, io::Error> {
+        log::info!(
+            "quiz.bulk_upload.start | service | upload_quiz_bulk | started | \"Uploading full quiz.\" | title=\"{}\" | questions_count={}",
+            payload.quiz.title,
+            payload.questions.len()
+        );
+
+        if payload.questions.is_empty() {
+            log::warn!(
+                "quiz.bulk_upload.failed | service | upload_quiz_bulk | failed | \"No questions provided.\" |"
+            );
+
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "Quiz must contain at least one question.",
+            ));
+        }
+
+        let quiz_id = self.create_quiz(payload.quiz).await?;
+
+        for question in payload.questions {
+            if question.options.is_empty() {
+                log::warn!(
+                    "quiz.bulk_upload.failed | service | upload_quiz_bulk | failed | \"Question has no options.\" | quiz_id={} | order={}",
+                    quiz_id,
+                    question.order
+                );
+
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "Each question must contain at least one option.",
+                ));
+            }
+
+            let question_id = self
+                .create_question(NewQuizQuestion {
+                    quiz_id,
+                    question_type: question.question_type,
+                    prompt: question.prompt,
+                    points: question.points,
+                    order: question.order,
+                })
+                .await?;
+
+            for option in question.options {
+                self.create_option(NewQuizQuestionOption {
+                    question_id,
+                    text: option.text,
+                    is_correct: option.is_correct,
+                    order: option.order,
+                })
+                .await?;
+            }
+        }
+
+        let aggregate_quiz = self.get_quiz_by_id(quiz_id).await?;
+
+        log::info!(
+            "quiz.bulk_upload.success | service | upload_quiz_bulk | success | \"Uploaded full quiz successfully.\" | quiz_id={}",
+            quiz_id
+        );
+
+        Ok(aggregate_quiz)
     }
 
     pub async fn get_quiz_by_id(&self, id: Uuid) -> Result<AggregateQuiz, io::Error> {
@@ -318,5 +400,390 @@ impl QuizService {
                 Err(Error::other(error.to_string()))
             }
         }
+    }
+
+    /// Quiz Attempts
+    pub async fn create_quiz_attempt(
+        &self,
+        attempt: QuizAttemptNew,
+    ) -> Result<AggregateQuizAttempt, io::Error> {
+        log::info!(
+            "quiz_attempt.create.start | service | create_quiz_attempt | started | \"Creating quiz attempt.\" | quiz_id={} | student_id={}",
+            attempt.quiz_id,
+            attempt.student_id
+        );
+
+        let quiz_id = attempt.quiz_id;
+        let student_id = attempt.student_id;
+
+        match self.attempt_repo.save(attempt).await {
+            Ok(_) => {
+                self.get_quiz_attempt_by_student_id(quiz_id, student_id)
+                    .await
+            }
+            Err(error) => {
+                log::error!(
+                    "quiz_attempt.create.failed | service | create_quiz_attempt | failed | \"Failed creating quiz attempt.\" | quiz_id={} | student_id={} | error=\"{}\"",
+                    quiz_id,
+                    student_id,
+                    error
+                );
+
+                Err(io::Error::other(error.to_string()))
+            }
+        }
+    }
+
+    pub async fn get_quiz_attempt_by_student_id(
+        &self,
+        quiz_id: Uuid,
+        student_id: Uuid,
+    ) -> Result<AggregateQuizAttempt, io::Error> {
+        log::info!(
+            "quiz_attempt.get.start | service | get_quiz_attempt_by_student_id | started | \"Getting quiz attempt.\" | quiz_id={} | student_id={}",
+            quiz_id,
+            student_id
+        );
+
+        match self
+            .attempt_repo
+            .get_quiz_attempt_by_student_id(quiz_id, student_id)
+            .await
+        {
+            Ok(attempt) => {
+                let responses = self
+                    .response_repo
+                    .get_responses_by_attempt_id(attempt.id)
+                    .await
+                    .map_err(|error| {
+                        log::error!(
+                            "quiz_attempt.get_responses.failed | service | get_quiz_attempt_by_student_id | failed | \"Failed getting quiz attempt responses.\" | attempt_id={} | error=\"{}\"",
+                            attempt.id,
+                            error
+                        );
+
+                        io::Error::other(error.to_string())
+                    })?;
+
+                Ok(AggregateQuizAttempt::from_attempt_and_responses(
+                    attempt, responses,
+                ))
+            }
+            Err(sqlx::Error::RowNotFound) => {
+                log::info!(
+                    "quiz_attempt.get.not_found | service | get_quiz_attempt_by_student_id | failed | \"Quiz attempt not found.\" | quiz_id={} | student_id={}",
+                    quiz_id,
+                    student_id
+                );
+
+                Err(io::Error::new(
+                    io::ErrorKind::NotFound,
+                    "Quiz attempt not found.",
+                ))
+            }
+            Err(error) => {
+                log::error!(
+                    "quiz_attempt.get.failed | service | get_quiz_attempt_by_student_id | failed | \"Failed getting quiz attempt.\" | quiz_id={} | student_id={} | error=\"{}\"",
+                    quiz_id,
+                    student_id,
+                    error
+                );
+
+                Err(io::Error::other(error.to_string()))
+            }
+        }
+    }
+
+    pub async fn update_quiz_attempt(
+        &self,
+        id: Uuid,
+        mut attempt: QuizAttemptNew,
+    ) -> Result<AggregateQuizAttempt, io::Error> {
+        log::info!(
+            "quiz_attempt.update.start | service | update_quiz_attempt | started | \"Updating quiz attempt.\" | attempt_id={}",
+            id
+        );
+
+        if attempt.status == QuizAttemptStatus::Completed {
+            let (score, percentage) = self.calculate_attempt_score(id, attempt.quiz_id).await?;
+
+            attempt.score = Some(score);
+            attempt.percentage = Some(percentage);
+
+            if attempt.ended_at.is_none() {
+                attempt.ended_at = Some(chrono::Utc::now());
+            }
+        }
+
+        match self.attempt_repo.update_attempt(id, attempt).await {
+            Ok(Some(updated_attempt)) => {
+                let responses = self
+                    .response_repo
+                    .get_responses_by_attempt_id(updated_attempt.id)
+                    .await
+                    .map_err(|error| {
+                        log::error!(
+                            "quiz_attempt.update_responses.failed | service | update_quiz_attempt | failed | \"Failed getting quiz attempt responses.\" | attempt_id={} | error=\"{}\"",
+                            updated_attempt.id,
+                            error
+                        );
+
+                        io::Error::other(error.to_string())
+                    })?;
+
+                Ok(AggregateQuizAttempt::from_attempt_and_responses(
+                    updated_attempt,
+                    responses,
+                ))
+            }
+            Ok(None) => {
+                log::info!(
+                    "quiz_attempt.update.not_found | service | update_quiz_attempt | failed | \"Quiz attempt not found.\" | attempt_id={}",
+                    id
+                );
+
+                Err(io::Error::new(
+                    io::ErrorKind::NotFound,
+                    "Quiz attempt not found.",
+                ))
+            }
+            Err(error) => {
+                log::error!(
+                    "quiz_attempt.update.failed | service | update_quiz_attempt | failed | \"Failed updating quiz attempt.\" | attempt_id={} | error=\"{}\"",
+                    id,
+                    error
+                );
+
+                Err(io::Error::other(error.to_string()))
+            }
+        }
+    }
+
+    pub async fn save_quiz_question_response(
+        &self,
+        response: QuizQuestionResponseNew,
+    ) -> Result<AggregateQuizAttempt, io::Error> {
+        log::info!(
+            "quiz_question_response.save.start | service | save_quiz_question_response | started | \"Saving quiz question response.\" | attempt_id={} | question_id={}",
+            response.attempt_id,
+            response.question_id
+        );
+
+        let attempt_id = response.attempt_id;
+
+        let evaluated_response = EvaluatedQuizQuestionResponseNew {
+            attempt_id: response.attempt_id,
+            question_id: response.question_id,
+            selected_option_id: response.selected_option_id,
+            is_correct: self
+                .is_selected_option_correct(response.selected_option_id)
+                .await?,
+            answered_at: response.answered_at,
+        };
+
+        match self.response_repo.save(evaluated_response).await {
+            Ok(_) => self.get_aggregate_attempt_by_attempt_id(attempt_id).await,
+            Err(error) => {
+                log::error!(
+                    "quiz_question_response.save.failed | service | save_quiz_question_response | failed | \"Failed saving quiz question response.\" | attempt_id={} | error=\"{}\"",
+                    attempt_id,
+                    error
+                );
+
+                Err(io::Error::other(error.to_string()))
+            }
+        }
+    }
+
+    pub async fn update_quiz_question_response(
+        &self,
+        id: Uuid,
+        response: QuizQuestionResponseNew,
+    ) -> Result<AggregateQuizAttempt, io::Error> {
+        log::info!(
+            "quiz_question_response.update.start | service | update_quiz_question_response | started | \"Updating quiz question response.\" | response_id={} | attempt_id={} | question_id={}",
+            id,
+            response.attempt_id,
+            response.question_id
+        );
+
+        let attempt_id = response.attempt_id;
+
+        let evaluated_response = EvaluatedQuizQuestionResponseNew {
+            attempt_id: response.attempt_id,
+            question_id: response.question_id,
+            selected_option_id: response.selected_option_id,
+            is_correct: self
+                .is_selected_option_correct(response.selected_option_id)
+                .await?,
+            answered_at: response.answered_at,
+        };
+
+        match self
+            .response_repo
+            .update_response(id, evaluated_response)
+            .await
+        {
+            Ok(Some(_)) => self.get_aggregate_attempt_by_attempt_id(attempt_id).await,
+            Ok(None) => {
+                log::info!(
+                    "quiz_question_response.update.not_found | service | update_quiz_question_response | failed | \"Quiz question response not found.\" | response_id={}",
+                    id
+                );
+
+                Err(io::Error::new(
+                    io::ErrorKind::NotFound,
+                    "Quiz question response not found.",
+                ))
+            }
+            Err(error) => {
+                log::error!(
+                    "quiz_question_response.update.failed | service | update_quiz_question_response | failed | \"Failed updating quiz question response.\" | response_id={} | error=\"{}\"",
+                    id,
+                    error
+                );
+
+                Err(io::Error::other(error.to_string()))
+            }
+        }
+    }
+
+    async fn is_selected_option_correct(
+        &self,
+        selected_option_id: Option<Uuid>,
+    ) -> Result<bool, io::Error> {
+        let selected_option_id = match selected_option_id {
+            Some(id) => id,
+            None => return Ok(false),
+        };
+
+        match self.option_repo.get_option_by_id(selected_option_id).await {
+            Ok(Some(option)) => Ok(option.is_correct),
+            Ok(None) => {
+                log::info!(
+                    "quiz_question_response.evaluate.not_found | service | is_selected_option_correct | failed | \"Selected option not found.\" | option_id={}",
+                    selected_option_id
+                );
+
+                Err(io::Error::new(
+                    io::ErrorKind::NotFound,
+                    "Selected option not found.",
+                ))
+            }
+            Err(error) => {
+                log::error!(
+                    "quiz_question_response.evaluate.failed | service | is_selected_option_correct | failed | \"Failed evaluating selected option.\" | option_id={} | error=\"{}\"",
+                    selected_option_id,
+                    error
+                );
+
+                Err(io::Error::other(error.to_string()))
+            }
+        }
+    }
+
+    async fn calculate_attempt_score(
+        &self,
+        attempt_id: Uuid,
+        quiz_id: Uuid,
+    ) -> Result<(i32, f64), io::Error> {
+        let responses = self
+            .response_repo
+            .get_responses_by_attempt_id(attempt_id)
+            .await
+            .map_err(|error| {
+                log::error!(
+                        "quiz_attempt.score.responses.failed | service | calculate_attempt_score | failed | \"Failed getting attempt responses.\" | attempt_id={} | error=\"{}\"",
+                        attempt_id,
+                        error
+                    );
+
+                io::Error::other(error.to_string())
+            })?;
+
+        let questions = self
+            .questions_repo
+            .get_quiz_questions_by_quiz_id(quiz_id)
+            .await
+            .map_err(|error| {
+                log::error!(
+                        "quiz_attempt.score.questions.failed | service | calculate_attempt_score | failed | \"Failed getting quiz questions.\" | quiz_id={} | error=\"{}\"",
+                        quiz_id,
+                        error
+                    );
+
+                io::Error::other(error.to_string())
+            })?;
+
+        let total_points: i32 = questions.iter().map(|question| question.points).sum();
+
+        if total_points == 0 {
+            return Ok((0, 0.0));
+        }
+
+        let mut score = 0;
+
+        for response in responses {
+            if !response.is_correct {
+                continue;
+            }
+
+            let question = questions
+                .iter()
+                .find(|question| question.id == response.question_id);
+
+            if let Some(question) = question {
+                score += question.points;
+            }
+        }
+
+        let percentage = (score as f64 / total_points as f64) * 100.0;
+
+        log::info!(
+            "quiz_attempt.score.success | service | calculate_attempt_score | success | \"Calculated attempt score.\" | attempt_id={} | score={} | total_points={} | percentage={}",
+            attempt_id,
+            score,
+            total_points,
+            percentage
+        );
+
+        Ok((score, percentage))
+    }
+
+    async fn get_aggregate_attempt_by_attempt_id(
+        &self,
+        attempt_id: Uuid,
+    ) -> Result<AggregateQuizAttempt, io::Error> {
+        let attempt = self
+            .attempt_repo
+            .get_quiz_attempt_by_id(attempt_id)
+            .await
+            .map_err(|error| {
+                log::error!(
+                    "quiz_attempt.aggregate.get_attempt.failed | service | get_aggregate_attempt_by_attempt_id | failed | \"Failed getting quiz attempt.\" | attempt_id={} | error=\"{}\"",
+                    attempt_id,
+                    error
+                );
+
+                io::Error::other(error.to_string())
+            })?;
+
+        let responses = self
+            .response_repo
+            .get_responses_by_attempt_id(attempt_id)
+            .await
+            .map_err(|error| {
+                log::error!(
+                    "quiz_attempt.aggregate.get_responses.failed | service | get_aggregate_attempt_by_attempt_id | failed | \"Failed getting quiz attempt responses.\" | attempt_id={} | error=\"{}\"",
+                    attempt_id,
+                    error
+                );
+
+                io::Error::other(error.to_string())
+            })?;
+
+        Ok(AggregateQuizAttempt::from_attempt_and_responses(
+            attempt, responses,
+        ))
     }
 }

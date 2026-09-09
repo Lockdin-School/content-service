@@ -1,0 +1,178 @@
+{
+  "quiz": {
+    "lessonId": "ed8dc70d-7aae-4afc-8b02-9614ea6ca58b",
+    "topicId": "3efef83f-b880-4790-b21c-0f281898c4bf",
+    "title": "Basic Arithmetic Operations Quiz",
+    "description": "A foundational tutorial quiz testing basic addition (+), subtraction (-), multiplication (x), division (/), and order of operations.",
+    "difficulty": "Easy",
+    "passingScore": 6,
+    "estimatedDurationMinutes": 5
+  },
+  "questions": [
+    {
+      "quizId": "<newly-submmitted-quiz-id>",
+      "questionType": "multipleChoice",
+      "prompt": "Thabo buys $15$ apples and $27$ oranges at a local spaza shop in Soweto. How many pieces of fruit did he buy in total? ($15 + 27$)",
+      "points": 2,
+      "order": 0,
+      "options": [
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$32$",
+          "isCorrect": false,
+          "order": 0
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$42$",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$43$",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$52$",
+          "isCorrect": false,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "quizId": "<newly-submmitted-quiz-id>",
+      "questionType": "multipleChoice",
+      "prompt": "A bakery in Cape Town baked $85$ fresh vetkoek in the morning. By noon, $58$ vetkoek were sold. How many vetkoek are remaining? ($85 - 58$)",
+      "points": 2,
+      "order": 1,
+      "options": [
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$27$",
+          "isCorrect": true,
+          "order": 0
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$33$",
+          "isCorrect": false,
+          "order": 1
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$37$",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$143$",
+          "isCorrect": false,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "quizId": "<newly-submmitted-quiz-id>",
+      "questionType": "multiplechoice",
+      "prompt": "A minibus taxi traveling between Pretoria and Johannesburg carries $15$ passengers per trip. If the taxi completes $6$ trips in a day, how many passengers were transported in total? ($15 \\times 6$)",
+      "points": 2,
+      "order": 2,
+      "options": [
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$75$",
+          "isCorrect": false,
+          "order": 0
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$80$",
+          "isCorrect": false,
+          "order": 1
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$90$",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$105$",
+          "isCorrect": false,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "quizId": "<newly-submmitted-quiz-id>",
+      "questionType": "multipleChoice",
+      "prompt": "A teacher in Durban has $144$ pencils to distribute equally among $12$ learners. How many pencils does each learner receive? ($144 \\div 12$)",
+      "points": 2,
+      "order": 3,
+      "options": [
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$10$",
+          "isCorrect": false,
+          "order": 0
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$11$",
+          "isCorrect": false,
+          "order": 1
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$12$",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$14$",
+          "isCorrect": false,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "quizId": "<newly-submmitted-quiz-id>",
+      "questionType": "multipleChoice",
+      "prompt": "Evaluate the following arithmetic expression using the correct order of operations (BODMAS): $24 + 16 \\div 4 - 5 \\times 2$",
+      "points": 2,
+      "order": 4,
+      "options": [
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$10$",
+          "isCorrect": false,
+          "order": 0
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$18$",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$20$",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "questionId": "<newly-submmitted-quiz-question-id>",
+          "text": "$30$",
+          "isCorrect": false,
+          "order": 3
+        }
+      ]
+    }
+  ]
+}

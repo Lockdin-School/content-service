@@ -8,11 +8,9 @@ use uuid::Uuid;
 ///
 /// An attempt captures a single instance of a student engaging with
 /// a quiz, including its lifecycle, timing, and resulting score.
-#[derive(Debug, Clone, FromRow)]
-pub struct QuizAttemptDB {
-    /// Unique identifier for the attempt.
-    pub id: Uuid,
-
+#[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct QuizAttemptNew {
     /// Identifier of the quiz being attempted.
     pub quiz_id: Uuid,
 
@@ -32,13 +30,7 @@ pub struct QuizAttemptDB {
     pub score: Option<i32>,
 
     /// Percentage score achieved during the attempt.
-    pub percentage: Option<f32>,
-
-    /// Timestamp at which the attempt record was created.
-    pub created_at: DateTime<Utc>,
-
-    /// Timestamp at which the attempt record was last modified.
-    pub updated_at: DateTime<Utc>,
+    pub percentage: Option<f64>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -69,7 +61,7 @@ pub struct QuizAttempt {
     pub score: Option<i32>,
 
     /// Percentage score achieved during the attempt.
-    pub percentage: Option<f32>,
+    pub percentage: Option<f64>,
 
     /// Timestamp at which the attempt record was created.
     pub created_at: DateTime<Utc>,
@@ -91,4 +83,36 @@ pub enum QuizAttemptStatus {
 
     /// The student left the quiz before submitting it.
     Abandoned,
+}
+
+#[derive(Debug, Clone, FromRow)]
+pub struct QuizAttemptRow {
+    pub id: Uuid,
+    pub quiz_id: Uuid,
+    pub student_id: Uuid,
+    pub status: QuizAttemptStatus,
+    pub started_at: DateTime<Utc>,
+    pub ended_at: Option<DateTime<Utc>>,
+    pub score: Option<i32>,
+    pub percentage: Option<f64>,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
+}
+
+impl From<QuizAttemptRow> for QuizAttempt {
+    fn from(row: QuizAttemptRow) -> Self {
+        Self {
+            id: row.id,
+            quiz_id: row.quiz_id,
+            student_id: row.student_id,
+            status: row.status,
+            responses: Vec::new(),
+            started_at: row.started_at,
+            ended_at: row.ended_at,
+            score: row.score,
+            percentage: row.percentage,
+            created_at: row.created_at,
+            updated_at: row.updated_at,
+        }
+    }
 }
