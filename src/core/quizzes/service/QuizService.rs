@@ -26,6 +26,8 @@ use std::io::{Error, ErrorKind};
 use std::sync::Arc;
 use tokio::io;
 use uuid::Uuid;
+use crate::core::quizzes::models::outbound::Observation::Observation;
+use crate::core::quizzes::outbound::publish_event::EventPublisher;
 
 pub struct QuizService {
     repo: Arc<dyn QuizRepository + Send + Sync>,
@@ -531,6 +533,41 @@ impl QuizService {
                         io::Error::other(error.to_string())
                     })?;
 
+                // potential violation
+                let quiz = self.repo.get_quiz_by_id(updated_attempt.quiz_id).await.unwrap();
+
+
+                let items = responses.clone();
+
+                let observation = Observation {
+                    event_type: "quiz_attempt_graded".to_string(),
+                    version: 1,
+                    student_id: updated_attempt.clone().student_id,
+                    occurred_at: updated_attempt.ended_at.unwrap_or_default(),
+                    source_service: "content-service".to_string(),
+                    source_event_id: updated_attempt.id,
+                    data: serde_json::json!({
+                        "quiz_id": updated_attempt.quiz_id,
+                        "attempt_id": updated_attempt.id,
+                        "topic_id": quiz.topic_id,
+                        "score": updated_attempt.score.unwrap_or(0),
+                        "passing_score": quiz.passing_score,
+                        "percentage": updated_attempt.percentage,
+                        "items": items,
+                    }),
+                };
+
+                log::info!("quiz_service.update_quiz_attempt | service | publish_event | initiating | \"Publishing quiz attempted grade event.\" | attempt_id={}", updated_attempt.id);
+                let _result = EventPublisher::publish_event(&observation).await.map_err(
+                    |e| {
+                        log::error!(
+                            "event.publish.failed | service | publish_event | failed | \"Failed publishing quiz attempted grade event.\" | attempt_id={} | error=\"{}\"",
+                            updated_attempt.id,
+                            e
+                        );
+                    }
+                );
+
                 Ok(AggregateQuizAttempt::from_attempt_and_responses(
                     updated_attempt,
                     responses,
@@ -786,4 +823,7 @@ impl QuizService {
             attempt, responses,
         ))
     }
+
+
+
 }
