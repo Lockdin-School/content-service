@@ -11,6 +11,8 @@ use crate::core::quizzes::models::QuizQuestion::{
 use crate::core::quizzes::models::QuizQuestionResponse::{
     EvaluatedQuizQuestionResponseNew, QuizQuestionResponseNew,
 };
+use crate::core::quizzes::models::outbound::Observation::Observation;
+use crate::core::quizzes::outbound::publish_event::EventPublisher;
 use crate::core::quizzes::quizzes_events::QuizCreatedPayload;
 use crate::core::quizzes::repositories::interfaces::attempt::QuizAttemptRepository::QuizAttemptRepository;
 use crate::core::quizzes::repositories::interfaces::option::QuestionOptionRepository::QuestionOptionRepository;
@@ -26,8 +28,6 @@ use std::io::{Error, ErrorKind};
 use std::sync::Arc;
 use tokio::io;
 use uuid::Uuid;
-use crate::core::quizzes::models::outbound::Observation::Observation;
-use crate::core::quizzes::outbound::publish_event::EventPublisher;
 
 pub struct QuizService {
     repo: Arc<dyn QuizRepository + Send + Sync>,
@@ -534,8 +534,11 @@ impl QuizService {
                     })?;
 
                 // potential violation
-                let quiz = self.repo.get_quiz_by_id(updated_attempt.quiz_id).await.unwrap();
-
+                let quiz = self
+                    .repo
+                    .get_quiz_by_id(updated_attempt.quiz_id)
+                    .await
+                    .unwrap();
 
                 let items = responses.clone();
 
@@ -557,7 +560,10 @@ impl QuizService {
                     }),
                 };
 
-                log::info!("quiz_service.update_quiz_attempt | service | publish_event | initiating | \"Publishing quiz attempted grade event.\" | attempt_id={}", updated_attempt.id);
+                log::info!(
+                    "quiz_service.update_quiz_attempt | service | publish_event | initiating | \"Publishing quiz attempted grade event.\" | attempt_id={}",
+                    updated_attempt.id
+                );
                 let _result = EventPublisher::publish_event(&observation).await.map_err(
                     |e| {
                         log::error!(
@@ -823,7 +829,4 @@ impl QuizService {
             attempt, responses,
         ))
     }
-
-
-
 }
