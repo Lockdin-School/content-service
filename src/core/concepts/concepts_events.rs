@@ -12,7 +12,7 @@ pub struct ConceptCreatedPayload {
 
     pub topic_id: Uuid,
 
-    pub estimated_duration_seconds: Option<i32>,
+    pub estimated_duration_seconds: Option<i64>,
 
     pub is_featured: bool,
     pub is_free: bool,

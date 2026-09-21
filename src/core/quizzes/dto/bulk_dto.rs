@@ -1,6 +1,7 @@
 use crate::core::quizzes::models::Quiz::NewQuiz;
 use crate::core::quizzes::models::QuizQuestion::QuizQuestionType;
 use serde::Deserialize;
+use uuid::Uuid;
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -12,6 +13,7 @@ pub struct BulkQuizUpload {
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BulkQuizQuestionUpload {
+    pub material_id: Uuid,
     pub question_type: QuizQuestionType,
     pub prompt: String,
     pub points: i32,

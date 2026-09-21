@@ -14,6 +14,11 @@ FROM debian:bookworm-slim AS development-runtime
 
 WORKDIR /app
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates \
+    && update-ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY --from=development-build /app/target/debug/content-service .
 
 CMD ["./content-service"]

@@ -10,15 +10,15 @@ use uuid::Uuid;
 /// understanding of the material covered by its associated lesson.
 /// It owns the questions that make up the assessment and defines
 /// the conditions and metadata under which the quiz is presented.
+/// 
+/// topic_id, and subject_id intentionally left out, as this is
+/// the aggregate quiz that is returned when the entire quiz is requested.
 #[derive(Serialize, Deserialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct AggregateQuiz {
     /// Unique identifier for the quiz.
     pub id: Uuid,
-
-    /// Identifier of the lesson to which this quiz belongs.
-    pub lesson_id: Uuid,
-
+    
     /// Title displayed to students.
     pub title: String,
 
@@ -32,7 +32,7 @@ pub struct AggregateQuiz {
     pub passing_score: i32,
 
     /// Expected time, in minutes, required to complete the quiz.
-    pub estimated_duration_minutes: i32,
+    pub estimated_duration_seconds: i64,
 
     /// Questions belonging to this quiz, maintained in their defined order.
     pub questions: Vec<AggregateQuestion>,

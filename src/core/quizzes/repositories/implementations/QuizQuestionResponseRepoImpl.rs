@@ -22,16 +22,18 @@ impl QuizQuestionResponseRepository for PostgresQuizQuestionResponseRepo {
                 id,
                 attempt_id,
                 question_id,
+                concept_id,
                 selected_option_id,
                 is_correct,
                 answered_at
             )
-            VALUES ($1, $2, $3, $4, $5, $6)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING id",
         )
         .bind(new_id)
         .bind(question_response.attempt_id)
         .bind(question_response.question_id)
+        .bind(question_response.concept_id)
         .bind(question_response.selected_option_id)
         .bind(question_response.is_correct)
         .bind(question_response.answered_at)
@@ -46,13 +48,7 @@ impl QuizQuestionResponseRepository for PostgresQuizQuestionResponseRepo {
         attempt_id: Uuid,
     ) -> sqlx::Result<Vec<QuizQuestionResponse>, Error> {
         let responses = sqlx::query_as(
-            "SELECT
-                id,
-                attempt_id,
-                question_id,
-                selected_option_id,
-                is_correct,
-                answered_at
+            "SELECT *
             FROM quiz_question_responses
             WHERE attempt_id = $1
             ORDER BY answered_at",

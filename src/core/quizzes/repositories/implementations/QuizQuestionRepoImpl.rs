@@ -12,11 +12,12 @@ impl QuizQuestionRepository for PostgresQuizQuestionRepo {
     async fn create_quiz_question(&self, question: NewQuizQuestion) -> sqlx::Result<Uuid, Error> {
         let new_id = Uuid::now_v7();
         let (id,): (Uuid,) = sqlx::query_as(
-            "INSERT INTO quiz_questions(id, quiz_id, question_type, prompt, points, \"order\") \
-         VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
+            "INSERT INTO quiz_questions(id, quiz_id, concept_id, question_type, prompt, points, \"order\") \
+         VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
         )
         .bind(new_id)
         .bind(question.quiz_id)
+        .bind(question.concept_id)
         .bind(question.question_type)
         .bind(question.prompt)
         .bind(question.points)

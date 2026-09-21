@@ -16,3 +16,11 @@ pub struct Observation {
 
     pub data: serde_json::Value,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ItemObservation {
+    pub question_id: Uuid,
+    pub concept_id: Uuid,
+    pub correct: bool,
+    pub answered_at: DateTime<Utc>,
+}

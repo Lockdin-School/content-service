@@ -11,7 +11,7 @@ use crate::core::quizzes::models::QuizQuestion::{
 use crate::core::quizzes::models::QuizQuestionResponse::{
     EvaluatedQuizQuestionResponseNew, QuizQuestionResponseNew,
 };
-use crate::core::quizzes::models::outbound::Observation::Observation;
+use crate::core::quizzes::models::outbound::Observation::{ItemObservation, Observation};
 use crate::core::quizzes::outbound::publish_event::EventPublisher;
 use crate::core::quizzes::quizzes_events::QuizCreatedPayload;
 use crate::core::quizzes::repositories::interfaces::attempt::QuizAttemptRepository::QuizAttemptRepository;
@@ -68,7 +68,7 @@ impl QuizService {
                     title: quiz.title.clone(),
                     description: quiz.description.clone(),
                     topic_id: quiz.topic_id,
-                    estimated_duration_seconds: Some(quiz.estimated_duration_minutes),
+                    estimated_duration_seconds: Some(quiz.estimated_duration_seconds),
                 };
 
                 if let Err(e) = self
@@ -130,6 +130,7 @@ impl QuizService {
             let question_id = self
                 .create_question(NewQuizQuestion {
                     quiz_id,
+                    concept_id: question.material_id,
                     question_type: question.question_type,
                     prompt: question.prompt,
                     points: question.points,
@@ -179,12 +180,11 @@ impl QuizService {
                 // Assembling the quiz
                 let quiz = AggregateQuiz {
                     id: quiz_db.id,
-                    lesson_id: quiz_db.lesson_id,
                     title: quiz_db.title,
                     description: quiz_db.description,
                     difficulty: quiz_db.difficulty,
                     passing_score: quiz_db.passing_score,
-                    estimated_duration_minutes: quiz_db.estimated_duration_minutes,
+                    estimated_duration_seconds: quiz_db.estimated_duration_seconds,
                     questions: aggregate_questions,
                     created_at: quiz_db.created_at,
                     updated_at: quiz_db.updated_at,
@@ -260,6 +260,7 @@ impl QuizService {
                         let question = AggregateQuestion {
                             id,
                             quiz_id: question.quiz_id,
+                            concept_id: question.concept_id,
                             question_type: question.question_type,
                             prompt: question.prompt,
                             points: question.points,
@@ -540,39 +541,60 @@ impl QuizService {
                     .await
                     .unwrap();
 
-                let items = responses.clone();
+                if updated_attempt.status == QuizAttemptStatus::Completed {
+                    let items = responses
+                        .iter()
+                        .map(|response| {
+                            ItemObservation {
+                                question_id: response.question_id,
+                                concept_id: response.concept_id,
+                                correct: response.is_correct,
+                                answered_at: response.answered_at,
+                            }
+                        })
+                        .collect::<Vec<ItemObservation>>();
 
-                let observation = Observation {
-                    event_type: "quiz_attempt_graded".to_string(),
-                    version: 1,
-                    student_id: updated_attempt.clone().student_id,
-                    occurred_at: updated_attempt.ended_at.unwrap_or_default(),
-                    source_service: "content-service".to_string(),
-                    source_event_id: updated_attempt.id,
-                    data: serde_json::json!({
-                        "quiz_id": updated_attempt.quiz_id,
-                        "attempt_id": updated_attempt.id,
-                        "topic_id": quiz.topic_id,
-                        "score": updated_attempt.score.unwrap_or(0),
-                        "passing_score": quiz.passing_score,
-                        "percentage": updated_attempt.percentage,
-                        "items": items,
-                    }),
-                };
+                    let observation = Observation {
+                        event_type: "quiz_attempt_graded".to_string(),
+                        version: 1,
+                        student_id: updated_attempt.clone().student_id,
+                        occurred_at: updated_attempt.ended_at.unwrap_or_default(),
+                        source_service: "content-service".to_string(),
+                        source_event_id: updated_attempt.id,
+                        data: serde_json::json!({
+                            "quiz_id": updated_attempt.quiz_id,
+                            "attempt_id": updated_attempt.id,
+                            "subject_id": quiz.subject_id,
+                            "topic_id": quiz.topic_id,
+                            "score": updated_attempt.score.unwrap_or(0),
+                            "passing_score": quiz.passing_score,
+                            "max_score": quiz.max_score,
+                            "percentage": updated_attempt.percentage,
+                            "items": items,
+                        }),
+                    };
 
-                log::info!(
-                    "quiz_service.update_quiz_attempt | service | publish_event | initiating | \"Publishing quiz attempted grade event.\" | attempt_id={}",
-                    updated_attempt.id
-                );
-                let _result = EventPublisher::publish_event(&observation).await.map_err(
-                    |e| {
-                        log::error!(
-                            "event.publish.failed | service | publish_event | failed | \"Failed publishing quiz attempted grade event.\" | attempt_id={} | error=\"{}\"",
-                            updated_attempt.id,
-                            e
-                        );
+                    log::info!(
+                        "quiz_service.update_quiz_attempt | service | publish_event | initiating | \"Publishing quiz attempted grade event.\" | attempt_id={}",
+                        updated_attempt.id
+                    );
+
+                    match EventPublisher::publish_event(&observation).await {
+                        Ok(_) => {
+                            log::info!(
+                                "event.publish.success | service | publish_event | success | \"Quiz attempted grade event published successfully.\" | attempt_id={}",
+                                updated_attempt.id
+                            );
+                        }
+                        Err(e) => {
+                            log::error!(
+                                "event.publish.failed | service | publish_event | failed | \"Failed publishing quiz attempted grade event.\" | attempt_id={} | error=\"{}\"",
+                                updated_attempt.id,
+                                e
+                            );
+                        }
                     }
-                );
+                }
 
                 Ok(AggregateQuizAttempt::from_attempt_and_responses(
                     updated_attempt,
@@ -617,6 +639,7 @@ impl QuizService {
         let evaluated_response = EvaluatedQuizQuestionResponseNew {
             attempt_id: response.attempt_id,
             question_id: response.question_id,
+            concept_id: response.concept_id,
             selected_option_id: response.selected_option_id,
             is_correct: self
                 .is_selected_option_correct(response.selected_option_id)
@@ -655,6 +678,7 @@ impl QuizService {
         let evaluated_response = EvaluatedQuizQuestionResponseNew {
             attempt_id: response.attempt_id,
             question_id: response.question_id,
+            concept_id: response.concept_id,
             selected_option_id: response.selected_option_id,
             is_correct: self
                 .is_selected_option_correct(response.selected_option_id)

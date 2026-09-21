@@ -11,6 +11,9 @@ pub struct AggregateQuestion {
     pub id: Uuid,
     /// Identifier of the quiz to which this question belongs.
     pub quiz_id: Uuid,
+    
+    /// Identifier of the concept or lesson being examined.
+    pub concept_id: Uuid,
     /// Format used to present and evaluate the question.
     pub question_type: QuizQuestionType,
     /// The question presented to the student.

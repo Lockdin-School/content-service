@@ -11,15 +11,16 @@ pub struct PostgresQuizRepo {
 impl QuizRepository for PostgresQuizRepo {
     async fn create_quiz(&self, quiz: NewQuiz) -> sqlx::Result<Quiz, Error> {
         let id = Uuid::now_v7();
-        let quiz = sqlx::query_as("INSERT INTO quizzes(id, lesson_id, topic_id, title, description, difficulty, passing_score, estimated_duration_minutes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *")
+        let quiz = sqlx::query_as("INSERT INTO quizzes(id, topic_id, subject_id, title, description, difficulty, passing_score, max_score, estimated_duration_seconds) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *")
             .bind(id)
-            .bind(quiz.lesson_id)
             .bind(quiz.topic_id)
+            .bind(quiz.subject_id)
             .bind(quiz.title)
             .bind(quiz.description)
             .bind(quiz.difficulty)
             .bind(quiz.passing_score)
-            .bind(quiz.estimated_duration_minutes)
+            .bind(quiz.max_score)
+            .bind(quiz.estimated_duration_seconds)
             .fetch_one(&self.pool)
             .await?;
 

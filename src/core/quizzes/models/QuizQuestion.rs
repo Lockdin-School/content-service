@@ -8,6 +8,9 @@ pub struct NewQuizQuestion {
     /// Identifier of the quiz to which this question belongs.
     pub quiz_id: Uuid,
 
+    /// Identifier of the material (Concept Or Lesson) that is being examined.
+    pub concept_id: Uuid,
+
     /// Format used to present and evaluate the question.
     pub question_type: QuizQuestionType,
 
@@ -34,6 +37,9 @@ pub struct QuizQuestion {
 
     /// Identifier of the quiz to which this question belongs.
     pub quiz_id: Uuid,
+
+    /// Identifier of the material (Concept Or Lesson) that is being examined.
+    pub concept_id: Uuid,
 
     /// Format used to present and evaluate the question.
     pub question_type: QuizQuestionType,

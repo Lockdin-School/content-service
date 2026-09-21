@@ -6,11 +6,11 @@ use uuid::Uuid;
 #[derive(sqlx::FromRow, Serialize, Deserialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct NewQuiz {
-    /// Identifier of the lesson to which this quiz belongs.
-    pub lesson_id: Uuid,
-
     /// Identifier of the topic to which this quiz belongs.
     pub topic_id: Uuid,
+
+    /// Identifier of the subject to which this quiz belongs.
+    pub subject_id: Uuid,
 
     /// Title displayed to students.
     pub title: String,
@@ -24,8 +24,10 @@ pub struct NewQuiz {
     /// Minimum score required to pass the quiz.
     pub passing_score: i32,
 
+    /// maximum score obtainable from this quiz
+    pub max_score: i32,
     /// Expected time, in minutes, required to complete the quiz.
-    pub estimated_duration_minutes: i32,
+    pub estimated_duration_seconds: i64,
 }
 
 #[derive(sqlx::FromRow, Serialize, Deserialize, Clone, Debug)]
@@ -33,12 +35,11 @@ pub struct NewQuiz {
 pub struct Quiz {
     /// Unique identifier for the quiz.
     pub id: Uuid,
-
-    /// Identifier of the lesson to which this quiz belongs.
-    pub lesson_id: Uuid,
-
     /// Identifier of the topic to which this quiz belongs.
     pub topic_id: Uuid,
+
+    /// Identifier of the subject to which this quiz belongs.
+    pub subject_id: Uuid,
 
     /// Title displayed to students.
     pub title: String,
@@ -52,8 +53,11 @@ pub struct Quiz {
     /// Minimum score required to pass the quiz.
     pub passing_score: i32,
 
+    /// maximum score obtainable from this quiz
+    pub max_score: i32,
+
     /// Expected time, in minutes, required to complete the quiz.
-    pub estimated_duration_minutes: i32,
+    pub estimated_duration_seconds: i64,
 
     /// Timestamp at which the quiz was created.
     pub created_at: DateTime<Utc>,

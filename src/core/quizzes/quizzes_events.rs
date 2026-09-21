@@ -11,5 +11,5 @@ pub struct QuizCreatedPayload {
 
     pub topic_id: Uuid,
 
-    pub estimated_duration_seconds: Option<i32>,
+    pub estimated_duration_seconds: Option<i64>,
 }

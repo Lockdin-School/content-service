@@ -8,7 +8,7 @@ impl EventPublisher {
         let client = Client::new();
 
         match client
-            .post("http://localhost/api/intelligence/v1/observations")
+            .post("http://intelligence-service:8080/api/v1/observations")
             .json(observation)
             .send()
             .await
@@ -41,15 +41,15 @@ impl EventPublisher {
                     }
                     _ => {
                         log::error!(
-                            "event.publish | event_publisher | publish_event | failed | \"Failed to publish event.\" | message = {:?}",
-                            response.text().await?
+                            "event.publish | event_publisher | publish_event | failed | \"Failed to publish event.\" | response = {:?}",
+                            response
                         );
                     }
                 }
                 Ok(())
             }
             Err(e) => {
-                log::error!("Failed to publish event: {}", e);
+                log::error!("Failed to publish event: {:?}", e);
                 Err(e)
             }
         }

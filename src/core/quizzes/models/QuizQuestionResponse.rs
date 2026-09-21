@@ -18,6 +18,9 @@ pub struct QuizQuestionResponse {
 
     /// Identifier of the question being answered.
     pub question_id: Uuid,
+    
+    /// Identifier of the concept or lesson that is being examined
+    pub concept_id: Uuid,
 
     /// Identifier of the option selected by the student.
     ///
@@ -42,6 +45,9 @@ pub struct QuizQuestionResponseNew {
     /// Identifier of the question being answered.
     pub question_id: Uuid,
 
+    /// Identifier of the concept or lesson that is being examined
+    pub concept_id: Uuid,
+
     /// Identifier of the option selected by the student.
     ///
     /// This is optional because not every response necessarily contains
@@ -57,6 +63,7 @@ pub struct QuizQuestionResponseNew {
 pub struct EvaluatedQuizQuestionResponseNew {
     pub attempt_id: Uuid,
     pub question_id: Uuid,
+    pub concept_id: Uuid,
     pub selected_option_id: Option<Uuid>,
     pub is_correct: bool,
     pub answered_at: DateTime<Utc>,
